@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shrisha Kamath · Business & Operations Dashboard</title>
+<meta name="description" content="Shrisha Kamath: operations, supply chain, consulting and business development. Experience, case files, every certification and a running learning log.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F3EE; --panel:#FFFFFF; --sunk:#EEEBE4; --ink:#15171C; --text:#3A3F49; --muted:#6A707B;
+  --line:#E2DED5; --line-2:#D2CDC2; --accent:#0E6B58; --accent-2:#0A5546; --soft:#E2F0EB;
+  --amber:#9A5A12; --amber-soft:#F6ECDD;
+  --disp:'Fraunces',Georgia,serif; --sans:'Manrope','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;color:var(--ink);text-wrap:balance}
+p{margin:0}
+a{color:var(--accent)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px 80px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* top nav */
+.nav{position:sticky;top:0;z-index:30;background:#F5F3EEE6;backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1120px;margin:0 auto;padding:10px 22px;display:flex;gap:18px;align-items:center;overflow-x:auto;scrollbar-width:none}
+.nav-in::-webkit-scrollbar{display:none}
+.brand{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap;letter-spacing:.04em}
+.nav a{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-decoration:none;white-space:nowrap;padding:4px 0;border-bottom:1px solid transparent}
+.nav a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.nav .sw{margin-left:auto;color:var(--accent);font-weight:600}
+
+/* hero */
+.hero{padding:56px 0 8px;display:grid;grid-template-columns:1.35fr 1fr;gap:36px;align-items:end}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);background:var(--soft);border:1px solid #BFDCD2;padding:5px 12px;border-radius:100px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 #0E6B5855}50%{box-shadow:0 0 0 6px #0E6B5800}}
+.hero h1{font-family:var(--disp);font-weight:700;font-size:clamp(46px,7.5vw,84px);line-height:.95;letter-spacing:-.02em;margin-top:18px}
+.roles{margin-top:16px;display:flex;flex-wrap:wrap;gap:7px}
+.roles span{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line-2);background:var(--panel);padding:4px 10px;border-radius:6px;color:var(--ink)}
+.thesis{font-family:var(--disp);font-size:clamp(20px,2.4vw,25px);line-height:1.38;color:var(--ink);font-weight:500}
+.thesis em{font-style:normal;color:var(--accent);background:linear-gradient(transparent 64%,#CDE7DE 64%)}
+.cta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12.5px;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--line-2);padding:9px 14px;border-radius:8px;transition:.18s}
+.btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.solid{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.solid:hover{background:var(--accent-2);color:#fff}
+.meta{margin-top:12px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+
+/* KPI */
+.kpis{margin-top:36px;display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 15px 14px;position:relative;overflow:hidden;transition:.2s}
+.kpi:hover{transform:translateY(-3px);border-color:var(--line-2);box-shadow:0 10px 24px #15171C0D}
+.kpi::before{content:'';position:absolute;left:0;top:0;height:3px;width:100%;background:var(--accent);opacity:.85}
+.kpi .v{font-family:var(--disp);font-weight:700;font-size:32px;color:var(--ink);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi .v small{font-size:15px;color:var(--muted);font-weight:500}
+.kpi .k{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.4}
+
+/* sections */
+section{margin-top:70px;scroll-margin-top:60px}
+.sh{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+.sh .n{font-family:var(--mono);font-size:11px;color:var(--accent);border:1px solid #BFDCD2;background:var(--soft);padding:2px 8px;border-radius:5px}
+.sh h2{font-family:var(--disp);font-size:clamp(25px,3.4vw,34px);font-weight:700;letter-spacing:-.015em}
+.sh .bar{flex:1;height:1px;background:var(--line-2)}
+.lede{color:var(--muted);max-width:70ch;margin-bottom:20px}
+
+/* experience */
+.exp{display:grid;gap:12px}
+.job{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:.2s}
+.job:hover{border-color:var(--line-2)}
+.job-h{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:18px 22px 14px;cursor:pointer;list-style:none}
+.job-h::-webkit-details-marker{display:none}
+.job-h h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.job-h .org{font-size:13.5px;color:var(--muted);margin-top:3px}
+.job-h .right{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.when{font-family:var(--mono);font-size:11.5px;color:var(--ink);background:var(--sunk);padding:4px 9px;border-radius:6px;white-space:nowrap}
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:5px;background:var(--soft);color:var(--accent);border:1px solid #BFDCD2;white-space:nowrap}
+.tag.am{background:var(--amber-soft);color:var(--amber);border-color:#E8D3B5}
+.tag.live{background:#E7F4EA;color:#1D6B33;border-color:#BCDDC4}
+.job-b{padding:0 22px 18px;border-top:1px solid var(--line)}
+.job-b ul{margin:14px 0 0;padding-left:18px;display:grid;gap:6px}
+.job-b li{font-size:14.5px}
+.job-b li b{color:var(--ink)}
+.job-f{margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.7}
+.chev{font-family:var(--mono);font-size:11px;color:var(--muted)}
+details[open] .chev{color:var(--accent)}
+
+/* case files */
+.cases{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.case{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 20px 18px;display:flex;flex-direction:column;gap:12px}
+.case .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.case h3{font-family:var(--disp);font-size:21px;font-weight:700;line-height:1.2}
+.flow{display:grid;gap:8px}
+.flow div{display:grid;grid-template-columns:78px 1fr;gap:10px;font-size:13.5px;line-height:1.5}
+.flow b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;padding-top:3px}
+.quote{border-left:3px solid var(--accent);padding:6px 0 6px 12px;font-family:var(--disp);font-size:15px;color:var(--ink);line-height:1.45}
+.quote span{display:block;font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:4px}
+.funnel{display:grid;gap:5px}
+.fbar{display:flex;align-items:center;gap:10px;font-size:12.5px}
+.fbar i{display:block;height:22px;border-radius:0 4px 4px 0;background:var(--accent)}
+.fbar i.l2{background:#3E8F7D}.fbar i.l3{background:#7DB5A7}
+.fbar span{font-family:var(--mono);font-size:11.5px;color:var(--ink);white-space:nowrap}
+
+/* learning */
+.learn-top{display:grid;grid-template-columns:1.6fr 1fr;gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+.card > h3{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;font-weight:600}
+.chart-wrap{position:relative}
+.chart{width:100%;height:auto;display:block}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:#fff;font-size:12px;line-height:1.45;padding:8px 10px;border-radius:7px;max-width:240px;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;z-index:5}
+.tip.on{opacity:1;transform:none}
+.tip b{display:block;font-weight:600}
+.tip span{color:#C9CED6;font-family:var(--mono);font-size:10.5px}
+.foot-note{font-size:12px;color:var(--muted);margin-top:10px}
+.now{display:grid;gap:12px}
+.now .item{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--bg)}
+.now .item .k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.now .item .t{font-weight:700;color:var(--ink);margin-top:3px}
+.now .item p{font-size:13.5px;margin-top:3px}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#1D9A4A;margin-right:6px;animation:pulse2 2s infinite}
+@keyframes pulse2{0%,100%{box-shadow:0 0 0 0 #1D9A4A66}50%{box-shadow:0 0 0 5px #1D9A4A00}}
+
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin:22px 0 12px;align-items:center}
+.filters .lbl{font-family:var(--mono);font-size:11px;color:var(--muted);margin-right:4px}
+.fchip{font-family:var(--mono);font-size:11.5px;border:1px solid var(--line-2);background:var(--panel);color:var(--text);padding:6px 11px;border-radius:100px;cursor:pointer;transition:.15s}
+.fchip:hover{border-color:var(--accent);color:var(--accent)}
+.fchip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.fchip .c{opacity:.6;margin-left:4px}
+.search{margin-left:auto;font-family:var(--mono);font-size:12px;border:1px solid var(--line-2);background:var(--panel);padding:7px 11px;border-radius:8px;min-width:200px;color:var(--ink)}
+.search:focus{outline:2px solid var(--accent);outline-offset:1px}
+.certs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cert{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;display:flex;flex-direction:column;gap:6px;transition:.18s}
+.cert:hover{border-color:var(--accent);transform:translateY(-2px)}
+.cert .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.cert .iss{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.cert .dt{font-family:var(--mono);font-size:11px;color:var(--ink);white-space:nowrap}
+.cert h4{font-size:15px;font-weight:700;line-height:1.3}
+.cert p{font-size:13px;color:var(--text);line-height:1.5}
+.cert .id{font-family:var(--mono);font-size:10px;color:var(--muted);word-break:break-all}
+.cert .doms{display:flex;gap:5px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+.cert .doms span{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);background:var(--soft);padding:2px 7px;border-radius:4px}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:30px;font-family:var(--mono);font-size:12px}
+.count{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:10px}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.list{display:grid}
+.list .row{display:grid;grid-template-columns:1fr auto;gap:2px 14px;padding:10px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.list .row:last-child{border-bottom:none}
+.list .row:first-child{padding-top:0}
+.list .t{font-weight:600;color:var(--ink);font-size:14.5px}
+.list .d{grid-column:1/-1;font-size:13px;color:var(--muted);line-height:1.5}
+.list .y{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+.events{display:grid;grid-template-columns:repeat(2,1fr);gap:0 26px}
+.ev{display:grid;grid-template-columns:14px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.ev::before{content:'';width:8px;height:8px;border-radius:2px;background:var(--line-2);margin-top:7px}
+.ev.rel::before{background:var(--accent)}
+.ev b{color:var(--ink);font-weight:600}
+.ev span{display:block;color:var(--muted);font-size:12.5px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pills span{font-size:12.5px;border:1px solid var(--line-2);background:var(--bg);padding:4px 10px;border-radius:100px;color:var(--ink)}
+
+.skills{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.skill{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 17px}
+.skill .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.skill h4{font-size:15px;font-weight:700}
+.lvl{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:4px;border:1px solid var(--line-2);color:var(--ink);white-space:nowrap}
+.lvl.adv{background:var(--ink);color:#fff;border-color:var(--ink)}
+.lvl.pro{background:var(--soft);color:var(--accent);border-color:#BFDCD2}
+.skill p{font-size:13px;color:var(--muted);margin-top:6px}
+
+.recs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rec{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+.rec q{font-family:var(--disp);font-size:16.5px;color:var(--ink);line-height:1.45;display:block;quotes:"\201C" "\201D"}
+.rec .who{margin-top:14px;font-size:13px;font-weight:700;color:var(--ink)}
+.rec .rel{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+
+footer{margin-top:80px;background:var(--ink);color:#C9CED6;border-radius:18px;padding:34px 32px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+footer h3{color:#fff;font-family:var(--disp);font-size:clamp(23px,3vw,31px)}
+footer p{font-family:var(--mono);font-size:11.5px;margin-top:8px;color:#9AA1AC}
+footer .btn{background:#ffffff10;border-color:#ffffff30;color:#fff}
+footer .btn.solid{background:var(--accent);border-color:var(--accent)}
+.colophon{margin-top:18px;font-family:var(--mono);font-size:10.5px;color:var(--muted);text-align:center}
+
+@media (max-width:980px){.kpis{grid-template-columns:repeat(3,1fr)}.cases,.certs,.recs,.g3{grid-template-columns:1fr 1fr}.hero{grid-template-columns:1fr}}
+@media (max-width:720px){.learn-top,.g2,.skills,.events{grid-template-columns:1fr}.cases,.certs,.recs,.g3{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}.search{margin-left:0;width:100%}.job-h .right{align-items:flex-start;text-align:left}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Sections">
+  <div class="nav-in">
+    <span class="brand">SK · BUSINESS</span>
+    <a href="#experience">Experience</a>
+    <a href="#cases">Case files</a>
+    <a href="#learning">Learning log</a>
+    <a href="#certs">Certifications</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a class="sw" href="https://shrishaskamath.github.io/atlas-markets/finance/">Finance dashboard →</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="hero">
+  <div>
+    <span class="eyebrow"><span class="dot"></span>Open to graduate business &amp; operations roles</span>
+    <h1>Shrisha<br>Kamath</h1>
+    <div class="roles">
+      <span>Operations</span><span>Supply chain</span><span>Business analysis</span><span>Consulting</span><span>Business development</span><span>Sustainability</span>
+    </div>
+  </div>
+  <div>
+    <p class="thesis">I take a process nobody has measured, <em>build the baseline</em>, find what is driving it, and hand over a recommendation people can act on. And I keep learning while I do it.</p>
+    <div class="cta">
+      <a class="btn solid" href="mailto:shrisha1.uk@gmail.com">✉ shrisha1.uk@gmail.com</a>
+      <a class="btn" href="https://www.linkedin.com/in/shrishakamath" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn" href="https://shrishaskamath.github.io/atlas-markets/finance/">Finance dashboard</a>
+    </div>
+    <p class="meta">MSc International Business &amp; Strategy (Merit), University of Exeter · UK Graduate visa, full right to work</p>
+  </div>
+</header>
+
+<div class="kpis">
+  <div class="kpi"><div class="v" data-count="15">15</div><div class="k">months full time in a chartered accountancy practice</div></div>
+  <div class="kpi"><div class="v">5<small> · 4 · 3</small></div><div class="k">people, countries and time zones in the team I led</div></div>
+  <div class="kpi"><div class="v" data-count="2">2</div><div class="k">ventures taken to costed business models</div></div>
+  <div class="kpi"><div class="v" data-count="17">17</div><div class="k">certifications and job simulations completed</div></div>
+  <div class="kpi"><div class="v" data-count="22" data-suffix="+">22+</div><div class="k">industry events, guest lectures and mentor sessions</div></div>
+  <div class="kpi"><div class="v" data-count="50">50</div><div class="k">person multicultural taste test run for One-Bite</div></div>
+</div>
+
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience">
+  <div class="sh"><span class="n">01</span><h2>Experience, read for operations</h2><span class="bar"></span></div>
+  <p class="lede">Most recent first. Click any role to expand or collapse it.</p>
+  <div class="exp">
+
+    <details class="job" open>
+      <summary class="job-h">
+        <div><h3>FC Associate (part time)</h3><div class="org">Amazon · UK fulfilment centre</div></div>
+        <div class="right"><span class="when">Oct 2026 – present</span><span class="tag live">Current</span></div>
+      </summary>
+      <div class="job-b">
+        <ul>
+          <li>Handle and scan stock in a high volume fulfilment centre to productivity, quality and safety targets in the run up to peak season.</li>
+          <li>Work inside a large shift team on standard work, shift by shift performance tracking and a safety first culture: operations seen from the floor, not from a slide.</li>
+        </ul>
+        <p class="job-f">Fulfilment · standard work · productivity and quality targets · health and safety</p>
+      </div>
+    </details>
+
+    <details class="job" open>
+      <summary class="job-h">
+        <div><h3>Campus Sustainability Assistant</h3><div class="org">University of Exeter · applied consulting project for the Sustainability Team</div></div>
+        <div class="right"><span class="when">Jan – Apr 2026</span><span class="tag">Consulting · logistics</span></div>
+      </summary>
+      <div class="job-b">
+        <ul>
+          <li>Built a <b>baseline of parcel volumes and last mile deliveries</b> across campus residences from reception logs, student surveys and staff interviews.</li>
+          <li>Ran root cause analysis on e-commerce demand: <b>convenience</b> was the main driver and <b>low awareness</b> of environmental impact the central gap.</li>
+          <li>Recommended demand side interventions that keep convenience intact: a tiered parcel system, point of purchase nudges, a repair café and a campus clothing library, plus awareness campaign assets.</li>
+          <li>Client feedback: “thoughtful, evidence-based and clearly presented” (Meg Haslam, Sustainability Team).</li>
+        </ul>
+        <p class="job-f">Team: Jasper Furniss, Maisie Williams, Riya Singh · Inbound logistics · demand analysis · surveys · stakeholder interviews</p>
+      </div>
+    </details>
+
+    <details class="job" open>
+      <summary class="job-h">
+        <div><h3>Sustainability Intern and Project Team Lead</h3><div class="org">SDG Future17 · QS Quacquarelli Symonds · remote</div></div>
+        <div class="right"><span class="when">Sep – Dec 2025</span><span class="tag">Project delivery</span></div>
+      </summary>
+      <div class="job-b">
+        <ul>
+          <li>Led a <b>team of 5 across 4 countries and 3 time zones</b> on a live engagement for the Green Ambassadors Club, a grassroots environmental NGO in Uganda.</li>
+          <li>Owned scoping, work allocation, review cycles, quality control and delivery, with mentor and client sign-off at each stage. Ran the team “writing first, calls second” to beat time zone friction.</li>
+          <li>Delivered a published climate education comic on schedule, aligned to UN SDGs 13 and 15, and planned print and digital distribution through schools and community networks.</li>
+          <li>Defined impact indicators: reach, engagement, learning outcomes and behaviour change signals.</li>
+        </ul>
+        <p class="job-f">Coordination · scheduling · distribution planning · client sign-off · cross-cultural leadership</p>
+      </div>
+    </details>
+
+    <details class="job" open>
+      <summary class="job-h">
+        <div><h3>Founder, Tradenova and One-Bite</h3><div class="org">SETsquared Pre-Incubator and Incubator · University of Exeter</div></div>
+        <div class="right"><span class="when">May 2025 – present</span><span class="tag">Venture building</span></div>
+      </summary>
+      <div class="job-b">
+        <ul>
+          <li>Took <b>2 ventures</b> from concept to validated, costed business models: One-Bite (consumer FMCG) and Tradenova (FinTech).</li>
+          <li>One-Bite: sized the market (<b>TAM £1bn · SAM £300m · SOM £1.5m</b>), ran a 50 person taste test across 3 regions, priced against competitors, costed compliance and set out a phased launch roadmap.</li>
+          <li>Built lean canvases and unit economics, then pitched to mentor and investor panels and reworked positioning on the feedback.</li>
+          <li>Team Leader at student entrepreneurship recruitment events, representing the programmes to prospective students.</li>
+        </ul>
+        <p class="job-f">Mentors: Jasmine Hammond, Emily Davies, Julia Mackay · Lean canvas · market sizing · go to market · pitching</p>
+      </div>
+    </details>
+
+    <details class="job">
+      <summary class="job-h">
+        <div><h3>Retail Assistant (part time)</h3><div class="org">Primark · Exeter</div></div>
+        <div class="right"><span class="when">May – Sep 2026</span><span class="tag am">Front line</span></div>
+      </summary>
+      <div class="job-b">
+        <ul>
+          <li>Met shift replenishment and floor standard targets during peak trading, covering unfamiliar departments at short notice.</li>
+          <li>Resolved customer queries, complaints and returns at first contact within store policy in a high footfall store.</li>
+        </ul>
+        <p class="job-f">Stockroom to floor replenishment · peak trading · customer service</p>
+      </div>
+    </details>
+
+    <details class="job" open>
+      <summary class="job-h">
+        <div><h3>Audit Assistant (full time)</h3><div class="org">M/s. Sudarshan Pai A &amp; Co., Chartered Accountants · Karnataka, India</div></div>
+        <div class="right"><span class="when">Aug 2023 – Oct 2024</span><span class="tag">15 months</span></div>
+      </summary>
+      <div class="job-b">
+        <ul>
+          <li>Managed <b>multiple concurrent engagements to fixed statutory deadlines</b>, owning workload planning and escalation.</li>
+          <li>Converted raw ledgers into decision ready summaries for partner sign-off, running financial statement and ratio analysis and verifying records against reporting standards.</li>
+          <li>Built valuation and reporting models in advanced Excel, and presented findings to corporate and high net worth clients in plain language.</li>
+          <li>Contributed to investment strategies that delivered 16% average portfolio growth within a year.</li>
+        </ul>
+        <p class="job-f">The firm's certificate notes “ability to maintain composure under pressure” · Excel · reconciliation · compliance</p>
+      </div>
+    </details>
+
+    <details class="job">
+      <summary class="job-h">
+        <div><h3>Research Intern, then Summer Intern</h3><div class="org">ISRO · Laboratory for Electro-Optics Systems, Bengaluru</div></div>
+        <div class="right"><span class="when">Jun 2022 · Jan – Jun 2023</span><span class="tag am">R&amp;D</span></div>
+      </summary>
+      <div class="job-b">
+        <ul>
+          <li>Invited back for a 6 month research project after a 2 month summer placement. Owned the problem end to end: autonomous path planning for planetary rovers.</li>
+          <li>Broke an ambiguous goal into a <b>5 stage pipeline</b> (image stitching, 3D reconstruction, YOLO hazard detection, occupancy grid, A* path planning) and validated each stage in simulation before moving on.</li>
+          <li>Annotated 2,000+ images and lifted detection confidence from about 75% to about 85% between mid-term and final review; documented methods, results and risks in a formal report and defence.</li>
+        </ul>
+        <p class="job-f">Process decomposition · checkpoints · documentation · Python · computer vision</p>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<!-- ============ CASE FILES ============ -->
+<section id="cases">
+  <div class="sh"><span class="n">02</span><h2>Case files</h2><span class="bar"></span></div>
+  <p class="lede">Three projects, each told as problem, method and result.</p>
+  <div class="cases">
+    <article class="case">
+      <span class="lab">Supply chain · last mile</span>
+      <h3>Mindful Consumption: Parcel Deliveries</h3>
+      <div class="flow">
+        <div><b>Problem</b><span>Parcel deliveries to residences were rising and nobody had measured them.</span></div>
+        <div><b>Method</b><span>Reception parcel logs, student surveys, staff interviews and desk research on packaging, emissions and returns.</span></div>
+        <div><b>Finding</b><span>Convenience drives ordering; awareness is the gap.</span></div>
+        <div><b>Result</b><span>Tiered parcel system, “think before you buy” nudges, repair café, clothing library.</span></div>
+      </div>
+      <p class="quote">“a high-quality piece of work with clear potential to influence positive change”<span>Meg Haslam · client · Apr 2026</span></p>
+    </article>
+
+    <article class="case">
+      <span class="lab">Commercial · FMCG</span>
+      <h3>One-Bite: a healthy snack, validated</h3>
+      <div class="funnel" aria-label="Market sizing: TAM 1 billion pounds, SAM 300 million, SOM 1.5 million">
+        <div class="fbar"><i style="width:56%"></i><span>TAM £1bn</span></div>
+        <div class="fbar"><i class="l2" style="width:17%"></i><span>SAM £300m</span></div>
+        <div class="fbar"><i class="l3" style="width:1%;min-width:6px"></i><span>SOM £1.5m · year 1</span></div>
+      </div>
+      <div class="flow">
+        <div><b>Test</b><span>50 people: 15 UK, 15 Nigeria, 20 Asia. Crunchy, filling, “addictive”.</span></div>
+        <div><b>Price</b><span>40–60p per bite against £1.20 store bars.</span></div>
+        <div><b>Costing</b><span>Registration, Level 2 hygiene, insurance, trademark; a ~£500 pilot for 200 consumers.</span></div>
+        <div><b>Feedback</b><span>Bill Russell, Juliet Barratt, Richard Carpenter on price, taste and brand story.</span></div>
+      </div>
+    </article>
+
+    <article class="case">
+      <span class="lab">Delivery · remote team</span>
+      <h3>Future17: a published comic, on time</h3>
+      <div class="flow">
+        <div><b>Brief</b><span>Climate and biodiversity material a Ugandan youth audience would actually read.</span></div>
+        <div><b>Team</b><span>5 people, 4 countries, 3 time zones; I set the rhythm and held the deadline.</span></div>
+        <div><b>Method</b><span>Writing first, calls second. Review cycles with mentor and NGO sign-off at every stage.</span></div>
+        <div><b>Result</b><span>Published on schedule; distributed in print and digital through schools and community networks.</span></div>
+      </div>
+      <p class="quote">Writing first, calls second: decisions written where everyone can find them.<span>My LinkedIn note on remote teams</span></p>
+    </article>
+  </div>
+</section>
+
+<!-- ============ LEARNING ============ -->
+<section id="learning">
+  <div class="sh"><span class="n">03</span><h2>Learning log</h2><span class="bar"></span></div>
+  <p class="lede">I learn on purpose and I learn continuously. Every dot below is a credential I finished; hover or tap one to see it.</p>
+  <div class="learn-top">
+    <div class="card">
+      <h3>Credentials completed, by month</h3>
+      <div class="chart-wrap" id="cadence"><div class="tip" id="tip" role="status"></div></div>
+      <p class="foot-note">Not on the timeline: Sulitest TASK (score 86.6) and Skills for AI &amp; Digital Innovation, both 2025, month not recorded; NCC ‘A’, ‘B’ and ‘C’ Certificates, 2016–2023.</p>
+    </div>
+    <div class="card">
+      <h3>Learning right now</h3>
+      <div class="now">
+        <div class="item"><div class="k"><span class="live-dot"></span>In progress</div><div class="t">AI workflow automation in n8n</div><p>Learning to connect tools into automated workflows: the operations side of AI.</p></div>
+        <div class="item"><div class="k">Just finished · Nov 2026</div><div class="t">Bank of America S&amp;T job simulation</div><p>Included process analysis: proposed improvements to trade execution workflow using automation.</p></div>
+        <div class="item"><div class="k">Just finished · Oct 2026</div><div class="t">OpenAI Agents &amp; Workflows · Anthropic AI Fluency</div><p>Two AI courses in one month, applied straight away to building my own tools.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-top:12px">
+    <div class="card">
+      <h3>Courses inside the courses</h3>
+      <div class="list">
+        <div class="row"><span class="t">SETsquared Pre-Incubator curriculum</span><span class="y">2025</span><span class="d">Lean Canvas · business models and market segments · revenue streams and finance basics · channels and MVP · market validation · pitching · startup finance and cashflow · TAM/SAM/SOM</span></div>
+        <div class="row"><span class="t">SETsquared Start-up Bootcamp</span><span class="y">2025</span><span class="d">Ideation, market validation, cost structure and target customers; pitch feedback from alumni mentors Josh Ash and Georgia Humbert</span></div>
+        <div class="row"><span class="t">Green Consultants training</span><span class="y">Jul – Sep 2025</span><span class="d">Behaviour change, project management, environmental auditing (own waste audit), Excel, awareness of BREEAM, ISO 14001 and B Corp</span></div>
+        <div class="row"><span class="t">EY Climate Change &amp; Sustainability simulation</span><span class="y">Sep 2025</span><span class="d">Benchmarked a client against peers; built a CDP and TCFD roadmap and an ESG target benchmarking analysis; prepared a client presentation</span></div>
+        <div class="row"><span class="t">EPO Create – Protect – Innovate</span><span class="y">Jan 2026</span><span class="d">Bringing ideas to market: patentability, freedom to operate, aligning IP strategy with commercial goals</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>MSc modules that shaped how I work</h3>
+      <div class="list">
+        <div class="row"><span class="t">Entrepreneurship Simulation (assessed)</span><span class="y">CEO</span><span class="d">Appointed CEO of a virtual company, directing finance, operations and marketing decisions against competitor teams</span></div>
+        <div class="row"><span class="t">Accounting for International Managers</span><span class="y">MSc</span><span class="d">Group company analysis with efficiency ratios: receivables turnover, inventory turnover</span></div>
+        <div class="row"><span class="t">Strategic Innovation Management</span><span class="y">MSc</span><span class="d">How firms build, protect and commercialise new ideas</span></div>
+        <div class="row"><span class="t">Corporate Governance and Finance</span><span class="y">MSc</span><span class="d">Board oversight, capital and accountability</span></div>
+        <div class="row"><span class="t">New product pitch for a UK brand</span><span class="y">MSc</span><span class="d">Developed and pitched a new product concept</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <h3>Events, lectures and mentoring I chose to attend</h3>
+    <p class="foot-note" style="margin:-6px 0 10px"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--accent);margin-right:6px"></span>Most relevant to business and operations roles, listed first</p>
+    <div class="events" id="events"></div>
+  </div>
+</section>
+
+<!-- ============ CERTIFICATIONS ============ -->
+<section id="certs">
+  <div class="sh"><span class="n">04</span><h2>Every certification</h2><span class="bar"></span></div>
+  <p class="lede">All 17, with issuers, dates and credential IDs where they exist. Filter by area or search.</p>
+  <div class="filters" id="filters" role="group" aria-label="Filter certifications"></div>
+  <div class="count" id="count" aria-live="polite"></div>
+  <div class="certs" id="certGrid"></div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills">
+  <div class="sh"><span class="n">05</span><h2>Skills, with the evidence</h2><span class="bar"></span></div>
+  <p class="lede">Levels are honest: Working means used with supervision, Proficient means used independently and repeatedly, Advanced means I built something others rely on.</p>
+  <div class="skills">
+    <div class="skill"><div class="top"><h4>Baseline building and demand analysis</h4><span class="lvl pro">Proficient</span></div><p>Parcel volumes across campus residences from logs, surveys and interviews.</p></div>
+    <div class="skill"><div class="top"><h4>Root cause analysis</h4><span class="lvl pro">Proficient</span></div><p>Convenience versus awareness on e-commerce demand; discrepancies resolved before partner review.</p></div>
+    <div class="skill"><div class="top"><h4>Microsoft Excel (models, pivots, lookups)</h4><span class="lvl adv">Advanced</span></div><p>Valuation and reporting models in the audit practice; trade journals and logs.</p></div>
+    <div class="skill"><div class="top"><h4>Project coordination across time zones</h4><span class="lvl pro">Proficient</span></div><p>Future17: task allocation, review cycles, sign-offs and a fixed deadline met.</p></div>
+    <div class="skill"><div class="top"><h4>Market sizing and unit economics</h4><span class="lvl pro">Proficient</span></div><p>One-Bite TAM/SAM/SOM and launch costing; Tradenova unit economics.</p></div>
+    <div class="skill"><div class="top"><h4>Market research and survey design</h4><span class="lvl pro">Proficient</span></div><p>Parcel study surveys; One-Bite taste test and competitor pricing.</p></div>
+    <div class="skill"><div class="top"><h4>Financial statement and ratio analysis</h4><span class="lvl pro">Proficient</span></div><p>15 months across a corporate and high net worth client book.</p></div>
+    <div class="skill"><div class="top"><h4>Stakeholder and client management</h4><span class="lvl pro">Proficient</span></div><p>NGO leadership, university teams, audit clients, mentor and investor panels.</p></div>
+    <div class="skill"><div class="top"><h4>Behaviour change and circular economy design</h4><span class="lvl pro">Proficient</span></div><p>Tiered parcels, nudges, repair café, clothing library; Green Consultants training.</p></div>
+    <div class="skill"><div class="top"><h4>AI tools and AI assisted building</h4><span class="lvl adv">Advanced</span></div><p>ChatGPT and Claude in daily work; ATLAS MARKETS built with AI; Anthropic and OpenAI courses.</p></div>
+    <div class="skill"><div class="top"><h4>Python</h4><span class="lvl pro">Proficient</span></div><p>ISRO computer vision and path planning pipeline.</p></div>
+    <div class="skill"><div class="top"><h4>Canva and visual storytelling</h4><span class="lvl pro">Proficient</span></div><p>The Future17 comic, the One-Bite deck and campaign assets.</p></div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <h3>Toolbox</h3>
+    <div class="pills"><span>Microsoft Excel</span><span>Microsoft Office</span><span>Teams</span><span>Zoom</span><span>Google Workspace</span><span>Canva</span><span>Python</span><span>Bloomberg Terminal</span><span>ChatGPT</span><span>Claude</span><span>n8n (learning)</span><span>Lean Canvas</span><span>TAM / SAM / SOM</span><span>Surveys and interviews</span><span>CDP / TCFD (EY simulation)</span></div>
+  </div>
+</section>
+
+<!-- ============ EDUCATION / LEADERSHIP ============ -->
+<section id="education">
+  <div class="sh"><span class="n">06</span><h2>Education, leadership and recognition</h2><span class="bar"></span></div>
+  <div class="g3">
+    <div class="card">
+      <h3>Education</h3>
+      <div class="list">
+        <div class="row"><span class="t">MSc International Business &amp; Strategy, Merit</span><span class="y">2025 – 26</span><span class="d">University of Exeter. Societies: Exeter Investment Management Society, Entrepreneurs Society, Open Water Swimming, Calisthenics</span></div>
+        <div class="row"><span class="t">B.Tech Electronics &amp; Communication Engineering</span><span class="y">2019 – 23</span><span class="d">Manipal Institute of Technology, minor in Business Management. University Volleyball A Team</span></div>
+        <div class="row"><span class="t">12th Standard, Science (PCM)</span><span class="y">2017 – 19</span><span class="d">Sri Venkataramana PU College. State and national medals in karate and wrestling</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Leadership</h3>
+      <div class="list">
+        <div class="row"><span class="t">Project Team Lead, SDG Future17</span><span class="y">2025</span><span class="d">5 people, 4 countries, 3 time zones</span></div>
+        <div class="row"><span class="t">CEO, Entrepreneurship Simulation</span><span class="y">2025</span><span class="d">Finance, operations and marketing decisions</span></div>
+        <div class="row"><span class="t">Team Leader, student startup recruitment events</span><span class="y">2025</span><span class="d">Exeter Student Startups</span></div>
+        <div class="row"><span class="t">NCC ‘C’ Certificate, platoon leadership</span><span class="y">2019 – 23</span><span class="d">Training, discipline and morale of a platoon; parade drills</span></div>
+        <div class="row"><span class="t">Senior Scout and Patrol Leader</span><span class="y">2012 – 17</span><span class="d">Treks, first aid training, clean-ups, disaster preparedness drills</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Awards</h3>
+      <div class="list">
+        <div class="row"><span class="t">Rashtrapati Scout Award</span><span class="y">2018</span><span class="d">India's highest Scouting honour, presented by the President of India</span></div>
+        <div class="row"><span class="t">Rajya Puraskar (Governor's Award)</span><span class="y">2016</span><span class="d">Highest state level Scout award</span></div>
+        <div class="row"><span class="t">Exeter Investment Competition, top 10</span><span class="y">2026</span><span class="d">University wide, 8 week virtual portfolio</span></div>
+        <div class="row"><span class="t">UK Investment Competition</span><span class="y">2025</span><span class="d">7th at Exeter, 144th of 1,000+ nationally</span></div>
+        <div class="row"><span class="t">Exeter Award</span><span class="y">2025</span><span class="d">University employability award</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RECOMMENDATIONS ============ -->
+<section id="recs">
+  <div class="sh"><span class="n">07</span><h2>What people I worked with say</h2><span class="bar"></span></div>
+  <div class="recs">
+    <div class="rec"><q>thoughtful, evidence-based and clearly presented</q><div class="who">Meg Haslam</div><div class="rel">Sustainability Team · client · Apr 2026</div></div>
+    <div class="rec"><q>reliable, thoughtful, and personable… will thrive in a future role core to business operations</q><div class="who">Jasmine Hammond</div><div class="rel">Student Entrepreneurship Manager · managed me · Dec 2025</div></div>
+    <div class="rec"><q>perfect grasp of core financial concepts… meticulous attention to detail</q><div class="who">Shokhrukh Komilov</div><div class="rel">Financial Analyst · teammate · Sep 2025</div></div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <h3>Let's talk operations.</h3>
+    <p>Exeter, UK · UK Graduate visa, full right to work · open to relocation within the UK</p>
+  </div>
+  <div class="cta" style="margin-top:0">
+    <a class="btn solid" href="mailto:shrisha1.uk@gmail.com">✉ Get in touch</a>
+    <a class="btn" href="https://www.linkedin.com/in/shrishakamath" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a class="btn" href="https://shrishaskamath.github.io/atlas-markets/finance/">Finance dashboard →</a>
+  </div>
+</footer>
+<p class="colophon">Updated November 2026 · Built by Shrisha Kamath with AI assisted development</p>
+
+</div>
+
+<script>
+const FOCUS = ['ops','sus','ent','ai','lead','fin','gen'];
+const DOM = {ops:'Operations & consulting',sus:'Sustainability',ent:'Entrepreneurship',ai:'AI & digital',lead:'Leadership',fin:'Finance & markets',gen:'Employability'};
+const CERTS = [
+ {n:'Global Markets Sales & Trading Analyst Job Simulation',i:'Bank of America · Forage',d:'Nov 2026',m:'2026-11',id:'6adddd49de57a23d9751e617',dom:['fin','ops'],p:'Market trends in Excel and Bloomberg; process improvements to trade execution workflow; a client proposal.'},
+ {n:'Agents and Workflows',i:'OpenAI Academy',d:'Oct 2026',m:'2026-10',dom:['ai','ops'],p:'Designing AI agents and automated workflows.'},
+ {n:'AI Fluency: Framework & Foundations',i:'Anthropic',d:'Oct 2026',m:'2026-10',id:'zd6md9amxxqn',dom:['ai'],p:'Working with AI effectively, critically and responsibly.'},
+ {n:'Future17 SDG Challenge',i:'QS Quacquarelli Symonds',d:'Jan 2026',m:'2026-01',dom:['sus','ops','lead'],p:'Led a 5 person international team to a published NGO deliverable.'},
+ {n:'Create – Protect – Innovate: Bringing Ideas to Market',i:'European Patent Office',d:'Jan 2026',m:'2026-01',dom:['ent'],p:'Entry level, UV03-2025. Patentability, freedom to operate, IP strategy.'},
+ {n:'Bloomberg Market Concepts',i:'Bloomberg',d:'Sep 2025',m:'2025-09',id:'TDhcKZhmrofSt9XvjH2qr8Z6',dom:['fin'],p:'Economics, currencies, fixed income and equities on the Terminal.'},
+ {n:'Climate Change & Sustainability Job Simulation',i:'EY · Forage',d:'Sep 2025',m:'2025-09',id:'24NfsE73tzBszsrwt',dom:['sus','ops'],p:'Peer benchmarking, CDP and TCFD roadmap, ESG target analysis.'},
+ {n:'Green Consultants',i:'University of Exeter',d:'Sep 2025',m:'2025-09',dom:['sus','ops'],p:'Behaviour change, project management, environmental auditing.'},
+ {n:'Exeter Award',i:'University of Exeter',d:'Sep 2025',m:'2025-09',dom:['gen'],p:'University employability and skills award.'},
+ {n:'Student Start-up Pre-Incubator Programme',i:'SETsquared',d:'Jun 2025',m:'2025-06',id:'b20eadd002b187e08d155e0b8b73cf2415bfcfef',dom:['ent','ops'],p:'Lean canvas, validation, revenue models, MVP, pitching.'},
+ {n:'Student Start-up Bootcamp',i:'SETsquared',d:'Jun 2025',m:'2025-06',id:'0f844de5e6202548c79fc3990e980ee75feea50e',dom:['ent'],p:'Ideation, market validation, cost structure, target customers.'},
+ {n:'SEBI Investor Awareness Test',i:'NISM',d:'May 2025',m:'2025-05',id:'NISM20250000192992',dom:['fin'],p:'Indian capital markets and investor protection.'},
+ {n:'Introduction to IB Technicals',i:'City Investment Training',d:'Apr 2025',m:'2025-04',dom:['fin'],p:'2 day course on investment banking technicals.'},
+ {n:'Finance Accelerator',i:'AmplifyME',d:'Mar 2025',m:'2025-03',id:'0adbfd2e-eac8-47c9-8641-409123feae80',dom:['fin'],p:'Financial markets and trading simulation.'},
+ {n:'TASK Sustainability Knowledge (score 86.6)',i:'Sulitest',d:'2025',dom:['sus'],p:'International sustainability literacy assessment.'},
+ {n:'Skills for AI & Digital Innovation',i:'University of Exeter (student led)',d:'2025',dom:['ai'],p:'2 week course on AI and digital innovation.'},
+ {n:'NCC ‘A’, ‘B’ and ‘C’ Certificates',i:'National Cadet Corps',d:'2016 – 2023',dom:['lead'],p:'‘C’ is the highest, Senior Division. Platoon leadership.'}
+];
+const EVENTS = [
+ ['P&G','Think Like a CEO','biz'],['European Patent Office','IP masterclass','biz'],['Romain Pouzou','Systems Thinking webinar (Future17)','biz'],
+ ['Angela Christidis','Decolonising Sustainability','biz'],['Exeter Entrepreneurship Awards','Mentor feedback from Bill Russell and Juliet Barratt','biz'],
+ ['Richard Carpenter','One to one business mentoring over coffee','biz'],['Andrew Durant','Forensic accounting session','biz'],
+ ['Guy Rolfe CFA · Andrea Acimovic','ESG lectures','biz'],['Russell · Federated Hermes · Allspring','Sustainable & Ethical Investing','biz'],
+ ['Bank of America','Explore Business Careers EMEA','fin'],['Bank of America','Market Risk insight event','fin'],
+ ['Baillie Gifford','Investment Research: Connect & Discover','fin'],['Baillie Gifford','Multicultural Careers','fin'],
+ ['Fidelity International','Research Analyst Internship webinar','fin'],['PGIM','Early Careers','fin'],
+ ['Federated Hermes · DWS · BNY','Student to Professional','fin'],['Aegon · Mercer · Federated Hermes','What does a fund manager do?','fin'],
+ ['HSBC AM · Aon · Vanguard','A Day in the Life','fin'],['LGT Wealth Management','Webinar with Tom Jemmett (UK Investment Competition)','fin'],
+ ['Golborne Capital','Webinar (UK Investment Competition)','fin'],['JO Hambro','Guest lecture by James Lowen','fin'],['Justin Haque','Slice of Finance','fin']
+];
+const REL = 'biz';
+</script>
+<script>
+/* ---- shared behaviour: events, cert explorer, cadence chart, counters ---- */
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // events
+  const ev = document.getElementById('events');
+  const sorted = EVENTS.filter(e=>e[2]===REL).concat(EVENTS.filter(e=>e[2]!==REL));
+  ev.innerHTML = sorted.map(e=>`<div class="ev${e[2]===REL?' rel':''}"><div><b>${e[0]}</b><span>${e[1]}</span></div></div>`).join('');
+
+  // cert explorer
+  const order = c => Math.min(...c.dom.map(d=>FOCUS.indexOf(d)));
+  const list = CERTS.slice().sort((a,b)=>order(a)-order(b));
+  const counts = {}; CERTS.forEach(c=>c.dom.forEach(d=>counts[d]=(counts[d]||0)+1));
+  const fwrap = document.getElementById('filters');
+  let active='all', q='';
+  fwrap.innerHTML = '<span class="lbl">Area</span>' +
+    `<button class="fchip" data-f="all" aria-pressed="true">All<span class="c">${CERTS.length}</span></button>` +
+    FOCUS.filter(f=>counts[f]).map(f=>`<button class="fchip" data-f="${f}" aria-pressed="false">${DOM[f]}<span class="c">${counts[f]}</span></button>`).join('') +
+    '<input class="search" type="search" placeholder="Search issuer, skill, ID…" aria-label="Search certifications">';
+  const grid = document.getElementById('certGrid'), cnt = document.getElementById('count');
+  function render(){
+    const items = list.filter(c=>(active==='all'||c.dom.includes(active)) && (!q || (c.n+' '+c.i+' '+c.p+' '+(c.id||'')).toLowerCase().includes(q)));
+    cnt.textContent = `Showing ${items.length} of ${CERTS.length}`;
+    grid.innerHTML = items.length ? items.map(c=>`<article class="cert"><div class="top"><span class="iss">${c.i}</span><span class="dt">${c.d}</span></div><h4>${c.n}</h4><p>${c.p}</p>${c.id?`<span class="id">ID ${c.id}</span>`:''}<div class="doms">${c.dom.map(d=>`<span>${DOM[d]}</span>`).join('')}</div></article>`).join('') : '<div class="empty">No match. Try another word.</div>';
+  }
+  fwrap.addEventListener('click',e=>{const b=e.target.closest('.fchip'); if(!b) return; active=b.dataset.f; fwrap.querySelectorAll('.fchip').forEach(x=>x.setAttribute('aria-pressed',x===b)); render();});
+  fwrap.querySelector('.search').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase(); render();});
+  render();
+
+  // cadence chart: stacked dots per month, Jan 2025 to Nov 2026
+  const css = getComputedStyle(document.documentElement);
+  const C = {mark:css.getPropertyValue('--chart-mark').trim()||css.getPropertyValue('--accent').trim(), ink:css.getPropertyValue('--muted').trim(), line:css.getPropertyValue('--line').trim(), band:css.getPropertyValue('--chart-band').trim()||'#0000000A', surf:css.getPropertyValue('--panel').trim()};
+  const months=[]; for(let y=2025;y<=2026;y++) for(let m=1;m<=12;m++){ if(y===2026&&m>11) break; months.push(`${y}-${String(m).padStart(2,'0')}`); }
+  const W=640,H=230,L=14,R=10,T=18,B=40, cw=(W-L-R)/months.length, r=Math.min(8,cw*0.36);
+  const byM={}; CERTS.filter(c=>c.m).forEach(c=>(byM[c.m]=byM[c.m]||[]).push(c));
+  const x=i=>L+cw*i+cw/2, base=H-B;
+  const mi=k=>months.indexOf(k);
+  let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Timeline of ${CERTS.filter(c=>c.m).length} dated credentials from March 2025 to November 2026">`;
+  // bands
+  const band=(a,b,label)=>{const x0=L+cw*mi(a), x1=L+cw*(mi(b)+1); s+=`<rect x="${x0}" y="${T-6}" width="${x1-x0}" height="${base-T+6}" fill="${C.band}" rx="4"/><text x="${x0+6}" y="${T+6}" font-family="IBM Plex Mono, JetBrains Mono, monospace" font-size="9.5" fill="${C.ink}">${label}</text>`;};
+  band('2025-01','2026-01','MSc, University of Exeter');
+  band('2026-10','2026-11','AI sprint');
+  s+=`<line x1="${L}" x2="${W-R}" y1="${base}" y2="${base}" stroke="${C.line}" stroke-width="1"/>`;
+  months.forEach((m,i)=>{ const [y,mm]=m.split('-'); if(mm==='01'||mm==='04'||mm==='07'||mm==='10'){ s+=`<text x="${x(i)}" y="${base+16}" text-anchor="middle" font-family="IBM Plex Mono, JetBrains Mono, monospace" font-size="10" fill="${C.ink}">${['','Jan','','','Apr','','','Jul','','','Oct'][+mm]}</text>`; } if(mm==='01') s+=`<text x="${x(i)}" y="${base+30}" text-anchor="middle" font-family="IBM Plex Mono, JetBrains Mono, monospace" font-size="10" font-weight="600" fill="${C.ink}">${y}</text>`; });
+  Object.keys(byM).forEach(k=>{ byM[k].forEach((c,j)=>{ const cy=base-r-2-j*(2*r+4); s+=`<g class="pt" tabindex="0" data-k="${k}" data-j="${j}"><circle cx="${x(mi(k))}" cy="${cy}" r="${r+6}" fill="transparent"/><circle cx="${x(mi(k))}" cy="${cy}" r="${r}" fill="${C.mark}" stroke="${C.surf}" stroke-width="2"/></g>`; }); });
+  s+='</svg>';
+  const wrap=document.getElementById('cadence'), tip=document.getElementById('tip');
+  wrap.insertAdjacentHTML('beforeend',s);
+  const svg=wrap.querySelector('svg');
+  function show(g){ const c=byM[g.dataset.k][+g.dataset.j]; tip.innerHTML=`<b>${c.n}</b><span>${c.i} · ${c.d}</span>`; const br=g.getBoundingClientRect(), wr=wrap.getBoundingClientRect(); let left=br.left-wr.left+br.width/2-110; left=Math.max(0,Math.min(left,wr.width-230)); tip.style.left=left+'px'; tip.style.top=(br.top-wr.top-58)+'px'; tip.classList.add('on'); }
+  svg.querySelectorAll('.pt').forEach(g=>{ g.addEventListener('mouseenter',()=>show(g)); g.addEventListener('focus',()=>show(g)); g.addEventListener('click',()=>show(g)); g.addEventListener('mouseleave',()=>tip.classList.remove('on')); g.addEventListener('blur',()=>tip.classList.remove('on')); g.style.cursor='pointer'; });
+
+  // counters
+  if(reduce||!('IntersectionObserver' in window)) return;
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(!e.isIntersecting) return; const el=e.target, t=+el.dataset.count, suf=el.dataset.suffix||'', t0=performance.now(); (function step(n){ const k=Math.min(1,(n-t0)/900); el.textContent=Math.round(t*(1-Math.pow(1-k,3)))+suf; if(k<1) requestAnimationFrame(step); })(t0); io.unobserve(el); }),{threshold:.4});
+  document.querySelectorAll('[data-count]').forEach(el=>io.observe(el));
+})();
+</script>
+</body>
+</html>

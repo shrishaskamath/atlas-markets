@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shrisha Kamath · Finance & Markets Dashboard</title>
+<meta name="description" content="Shrisha Kamath: trading, sales and trading, investment analysis, banking and FinTech. Competitions, systematic method, every certification and a running learning log.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chivo:wght@600;700;900&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06080C; --panel:#0D1219; --panel-2:#111823; --line:#1C2633; --line-2:#26334A;
+  --white:#EEF2F7; --text:#A6B2C1; --muted:#6D7B90; --amber:#FFB23F; --green:#2FD98A; --cyan:#4CC9E4; --red:#FF6B6B;
+  --accent:#FFB23F; --chart-mark:#FFB23F; --chart-band:#FFFFFF08;
+  --disp:'Chivo','Helvetica Neue',sans-serif; --sans:'Barlow','Helvetica Neue',Arial,sans-serif; --mono:'JetBrains Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4{margin:0;color:var(--white);font-family:var(--disp);text-wrap:balance}
+p{margin:0}
+a{color:var(--amber)}
+.wrap{position:relative;z-index:1;max-width:1140px;margin:0 auto;padding:0 22px 80px}
+.bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(to right,#FFFFFF06 1px,transparent 1px),linear-gradient(to bottom,#FFFFFF06 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 10%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 10%,transparent 75%)}
+.glow{position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(110px)}
+.glow.a{width:560px;height:420px;top:-220px;left:-120px;background:#FFB23F1C}
+.glow.b{width:460px;height:380px;top:-180px;right:-100px;background:#2FD98A14}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:30;background:#06080CE6;backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1140px;margin:0 auto;padding:10px 22px;display:flex;gap:18px;align-items:center;overflow-x:auto;scrollbar-width:none}
+.nav-in::-webkit-scrollbar{display:none}
+.brand{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--amber);white-space:nowrap;letter-spacing:.06em}
+.nav a{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-decoration:none;white-space:nowrap;padding:4px 0;border-bottom:1px solid transparent}
+.nav a:hover{color:var(--amber);border-bottom-color:var(--amber)}
+.nav .sw{margin-left:auto;color:var(--green)}
+
+/* ticker */
+.ticker{border-bottom:1px solid var(--line);background:#090D13;overflow:hidden;position:relative;z-index:1}
+.ticker::before,.ticker::after{content:'';position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none}
+.ticker::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+.ticker::after{right:0;background:linear-gradient(270deg,var(--bg),transparent)}
+.tk{display:flex;width:max-content;animation:slide 44s linear infinite}
+.tk:hover{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+.tk span{display:flex;gap:8px;align-items:baseline;padding:9px 20px;border-right:1px solid var(--line);font-family:var(--mono);font-size:11.5px;white-space:nowrap}
+.tk i{font-style:normal;color:var(--muted);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase}
+.tk b{color:var(--white)}.tk b.g{color:var(--green)}.tk b.a{color:var(--amber)}
+
+/* hero */
+.hero{padding:54px 0 0;display:grid;grid-template-columns:1.3fr 1fr;gap:36px;align-items:end}
+.status{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);border:1px solid #2FD98A3D;background:#2FD98A0D;padding:6px 12px;border-radius:4px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blip 2.2s infinite}
+@keyframes blip{0%,100%{box-shadow:0 0 0 0 #2FD98A66}50%{box-shadow:0 0 0 6px #2FD98A00}}
+.hero h1{font-size:clamp(44px,8vw,84px);font-weight:900;letter-spacing:-.035em;line-height:.93;margin-top:18px}
+.hero h1 span{display:block;color:var(--amber)}
+.roles{margin-top:14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.roles b{color:var(--text);font-weight:500}
+.thesis{font-size:clamp(19px,2.3vw,23px);line-height:1.45;color:var(--white);font-weight:500}
+.thesis em{font-style:normal;color:var(--amber)}
+.cta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12.5px;color:var(--white);text-decoration:none;border:1px solid var(--line-2);background:var(--panel);padding:9px 14px;border-radius:5px;transition:.18s}
+.btn:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-2px)}
+.btn:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.btn.solid{background:var(--amber);border-color:var(--amber);color:#160E02;font-weight:700}
+.btn.solid:hover{background:#FFC466;color:#160E02}
+.meta{margin-top:12px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+
+/* tape */
+.tape{margin-top:34px;display:grid;grid-template-columns:repeat(6,1fr);gap:9px}
+.tick{border:1px solid var(--line);border-radius:7px;background:linear-gradient(165deg,var(--panel-2),var(--panel));padding:15px 14px 13px;transition:.2s}
+.tick:hover{transform:translateY(-3px);border-color:var(--line-2)}
+.tick .v{font-family:var(--disp);font-size:29px;font-weight:900;letter-spacing:-.03em;color:var(--amber);line-height:1;font-variant-numeric:tabular-nums}
+.tick.g .v{color:var(--green)}.tick.c .v{color:var(--cyan)}
+.tick .k{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px;line-height:1.45;text-transform:uppercase;letter-spacing:.03em}
+
+/* sections */
+section{margin-top:66px;scroll-margin-top:60px}
+.sh{display:flex;align-items:center;gap:13px;margin-bottom:8px}
+.sh .n{font-family:var(--mono);font-size:11px;color:var(--amber);border:1px solid #FFB23F3D;background:#FFB23F0D;border-radius:4px;padding:3px 8px}
+.sh h2{font-size:clamp(21px,3vw,29px);font-weight:700;letter-spacing:-.025em}
+.sh .bar{flex:1;height:1px;background:linear-gradient(90deg,var(--line-2),transparent)}
+.lede{color:var(--muted);max-width:72ch;margin-bottom:20px}
+
+/* competitions */
+.comps{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.comp{display:grid;grid-template-columns:auto 1px 1fr;gap:20px;align-items:center;border:1px solid #FFB23F3D;border-radius:8px;padding:20px 22px;background:linear-gradient(110deg,#FFB23F14,var(--panel) 60%)}
+.comp .rk{text-align:center;min-width:86px}
+.comp .rk .n{font-family:var(--disp);font-size:44px;font-weight:900;color:var(--amber);line-height:1;letter-spacing:-.04em}
+.comp .rk .s{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.11em;text-transform:uppercase;margin-top:6px}
+.comp .vb{align-self:stretch;background:var(--line-2)}
+.comp h3{font-size:17px;font-weight:700;line-height:1.25}
+.comp p{font-size:13.5px;margin-top:6px;line-height:1.5}
+.comp .small{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:8px}
+.insight{margin-top:10px;border:1px dashed var(--line-2);border-radius:8px;padding:13px 16px;font-size:14px;display:flex;gap:12px;align-items:flex-start}
+.insight b{font-family:var(--mono);font-size:10.5px;color:var(--green);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;padding-top:2px}
+
+/* experience */
+.rec{border:1px solid var(--line);border-radius:8px;background:var(--panel);margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+.rec:hover{border-color:var(--line-2)}
+.rec-h{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start;padding:17px 21px 14px;background:linear-gradient(170deg,var(--panel-2),transparent);cursor:pointer;list-style:none}
+.rec-h::-webkit-details-marker{display:none}
+.rec-h h3{font-size:19px;font-weight:700;letter-spacing:-.02em}
+.rec-h .org{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:5px}
+.rec-h .right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.when{font-family:var(--mono);font-size:11.5px;color:var(--white);border:1px solid var(--line-2);padding:4px 9px;border-radius:4px;white-space:nowrap}
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:4px;white-space:nowrap;background:#FFB23F17;color:var(--amber);border:1px solid #FFB23F38}
+.tag.g{background:#2FD98A14;color:var(--green);border-color:#2FD98A33}
+.tag.c{background:#4CC9E414;color:var(--cyan);border-color:#4CC9E433}
+.rec-b{padding:4px 21px 18px;border-top:1px solid var(--line)}
+.rec-b ul{margin:14px 0 0;padding-left:18px;display:grid;gap:7px}
+.rec-b li{font-size:14.5px}
+.rec-b li b{color:var(--white);font-weight:600}
+.rec-b li .win{color:var(--green);font-weight:600}
+.rec-f{margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.7}
+
+/* method */
+.pipe{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+.stage{border:1px solid var(--line);border-radius:6px;background:linear-gradient(170deg,var(--panel-2),var(--panel));padding:16px 15px;transition:.2s}
+.stage:hover{border-color:var(--amber);transform:translateY(-3px)}
+.stage .st{font-family:var(--mono);font-size:10px;color:var(--amber);letter-spacing:.11em}
+.stage h4{font-size:15px;margin-top:7px}
+.stage p{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.5}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.card{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:19px 21px}
+.card > h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:14px;font-weight:700}
+.rules{display:grid;gap:8px}
+.rule{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:baseline;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.rule:last-child{border-bottom:none;padding-bottom:0}
+.rule .v{font-family:var(--mono);font-size:14px;color:var(--green);font-weight:700}
+.rule .d{font-size:13.5px}
+
+/* indicator table */
+.tbl-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.search{font-family:var(--mono);font-size:12px;border:1px solid var(--line-2);background:var(--panel-2);padding:7px 11px;border-radius:5px;min-width:220px;color:var(--white)}
+.search:focus{outline:2px solid var(--amber);outline-offset:1px}
+.tbl-count{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.tbl{max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:6px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{position:sticky;top:0;background:var(--panel-2);text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;padding:9px 12px;border-bottom:1px solid var(--line-2)}
+td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{font-family:var(--mono);color:var(--amber);width:44px}
+td:nth-child(2){color:var(--white);font-weight:500}
+tr:hover td{background:#FFFFFF05}
+.fam{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan);white-space:nowrap}
+
+/* drawdown */
+.dd{display:grid;grid-template-columns:1fr 1.25fr;gap:18px;align-items:center}
+.dd label{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.dd input[type=range]{width:100%;accent-color:var(--amber);margin:10px 0}
+.dd .big{display:flex;gap:22px;flex-wrap:wrap}
+.dd .big div{font-family:var(--disp);font-size:38px;font-weight:900;line-height:1}
+.dd .big .l{color:var(--red)}.dd .big .r{color:var(--green)}
+.dd .big small{display:block;font-family:var(--mono);font-size:10px;color:var(--muted);font-weight:400;margin-top:6px;letter-spacing:.06em;text-transform:uppercase}
+.dd p{font-size:13.5px;margin-top:14px}
+.chart-wrap{position:relative}
+.chart{width:100%;height:auto;display:block}
+.tip{position:absolute;pointer-events:none;background:#EEF2F7;color:#0B0F15;font-size:12px;line-height:1.45;padding:8px 10px;border-radius:5px;max-width:240px;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;z-index:5}
+.tip.on{opacity:1;transform:none}
+.tip b{display:block;font-weight:600}
+.tip span{color:#4B5566;font-family:var(--mono);font-size:10.5px}
+
+/* notes */
+.notes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.note{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:17px 18px;display:flex;flex-direction:column;gap:8px;transition:.2s}
+.note:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.note .k{font-family:var(--mono);font-size:10px;color:var(--cyan);letter-spacing:.1em;text-transform:uppercase}
+.note h4{font-size:16px;line-height:1.3}
+.note p{font-size:13.5px;line-height:1.55}
+.note .fig{font-family:var(--mono);font-size:12px;color:var(--white);background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:6px 9px}
+
+/* atlas */
+.atlas{display:grid;grid-template-columns:1.1fr 1fr;gap:0;border:1px solid #2FD98A3D;border-radius:10px;overflow:hidden;background:linear-gradient(120deg,#2FD98A10,var(--panel) 55%)}
+.atlas .l{padding:24px 26px}
+.atlas .l h3{font-size:26px;font-weight:900;letter-spacing:-.03em}
+.atlas .l p{margin-top:10px;font-size:14.5px}
+.atlas .mock{border-left:1px solid var(--line);background:#080B10;padding:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;align-content:start}
+.atlas .mock div{border:1px solid var(--line);border-radius:3px;padding:7px;font-family:var(--mono);font-size:9.5px;color:var(--muted);min-height:44px;letter-spacing:.04em;text-transform:uppercase}
+.atlas .mock div b{display:block;color:var(--green);font-size:12px;margin-top:4px}
+.atlas .mock div b.r{color:var(--red)}
+.atlas .mock .w2{grid-column:span 2}
+
+/* learning / certs */
+.learn-top{display:grid;grid-template-columns:1.6fr 1fr;gap:10px}
+.foot-note{font-size:12px;color:var(--muted);margin-top:10px}
+.now{display:grid;gap:10px}
+.now .item{border:1px solid var(--line);border-radius:6px;padding:11px 13px;background:var(--panel-2)}
+.now .item .k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.now .item .t{font-weight:600;color:var(--white);margin-top:3px}
+.now .item p{font-size:13.5px;margin-top:3px}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:6px;animation:blip 2s infinite}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin:22px 0 12px;align-items:center}
+.filters .lbl{font-family:var(--mono);font-size:11px;color:var(--muted);margin-right:4px}
+.fchip{font-family:var(--mono);font-size:11.5px;border:1px solid var(--line-2);background:var(--panel);color:var(--text);padding:6px 11px;border-radius:4px;cursor:pointer;transition:.15s}
+.fchip:hover{border-color:var(--amber);color:var(--amber)}
+.fchip[aria-pressed="true"]{background:var(--amber);border-color:var(--amber);color:#160E02}
+.fchip .c{opacity:.6;margin-left:4px}
+.filters .search{margin-left:auto}
+.certs{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.cert{border:1px solid var(--line);border-radius:7px;background:var(--panel);padding:14px 15px;display:flex;flex-direction:column;gap:6px;transition:.18s}
+.cert:hover{border-color:var(--amber);transform:translateY(-2px)}
+.cert .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.cert .iss{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.cert .dt{font-family:var(--mono);font-size:11px;color:var(--white);white-space:nowrap}
+.cert h4{font-size:15px;font-family:var(--sans);font-weight:600;line-height:1.3}
+.cert p{font-size:13px;line-height:1.5}
+.cert .id{font-family:var(--mono);font-size:10px;color:var(--muted);word-break:break-all}
+.cert .doms{display:flex;gap:5px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+.cert .doms span{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);background:#FFB23F12;padding:2px 7px;border-radius:3px}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:30px;font-family:var(--mono);font-size:12px}
+.count{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:10px}
+.list{display:grid}
+.list .row{display:grid;grid-template-columns:1fr auto;gap:2px 14px;padding:10px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.list .row:last-child{border-bottom:none}
+.list .row:first-child{padding-top:0}
+.list .t{font-weight:600;color:var(--white);font-size:14.5px}
+.list .d{grid-column:1/-1;font-size:13px;color:var(--muted);line-height:1.5}
+.list .y{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+.events{display:grid;grid-template-columns:repeat(2,1fr);gap:0 26px}
+.ev{display:grid;grid-template-columns:14px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.ev::before{content:'';width:8px;height:8px;background:var(--line-2);margin-top:7px}
+.ev.rel::before{background:var(--amber)}
+.ev b{color:var(--white);font-weight:600}
+.ev span{display:block;color:var(--muted);font-size:12.5px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pills span{font-size:12.5px;border:1px solid var(--line-2);background:var(--panel-2);padding:4px 10px;border-radius:4px;color:var(--text)}
+.pills span.key{border-color:#FFB23F55;color:var(--amber)}
+.skills{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.skill{border:1px solid var(--line);border-radius:7px;background:var(--panel);padding:14px 16px}
+.skill .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.skill h4{font-size:15px;font-family:var(--sans);font-weight:600}
+.lvl{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:3px;border:1px solid var(--line-2);color:var(--text);white-space:nowrap}
+.lvl.adv{background:var(--amber);color:#160E02;border-color:var(--amber)}
+.lvl.pro{background:#2FD98A14;color:var(--green);border-color:#2FD98A33}
+.skill p{font-size:13px;color:var(--muted);margin-top:6px}
+.recs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.rq{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:19px}
+.rq q{font-size:16.5px;color:var(--white);line-height:1.45;display:block}
+.rq .who{margin-top:13px;font-size:13px;font-weight:600;color:var(--white)}
+.rq .rel{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+
+footer{margin-top:76px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(150deg,#121A26,var(--panel) 70%);padding:34px 30px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+footer h3{font-size:clamp(22px,3.2vw,30px);font-weight:900;letter-spacing:-.03em}
+footer p{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:8px}
+.colophon{margin-top:18px;font-family:var(--mono);font-size:10.5px;color:var(--muted);text-align:center}
+
+@media (max-width:1000px){.tape{grid-template-columns:repeat(3,1fr)}.pipe{grid-template-columns:1fr 1fr}.notes,.certs,.recs,.g3{grid-template-columns:1fr 1fr}.hero{grid-template-columns:1fr}}
+@media (max-width:760px){.comps,.g2,.learn-top,.dd,.atlas,.skills,.events{grid-template-columns:1fr}.atlas .mock{border-left:none;border-top:1px solid var(--line)}.notes,.certs,.recs,.g3,.pipe{grid-template-columns:1fr}.tape{grid-template-columns:1fr 1fr}.comp{grid-template-columns:1fr;gap:12px}.comp .vb{display:none}.comp .rk{text-align:left}.filters .search{margin-left:0;width:100%}.rec-h .right{align-items:flex-start}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="glow a" aria-hidden="true"></div><div class="glow b" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="Sections">
+  <div class="nav-in">
+    <span class="brand">SK · MARKETS</span>
+    <a href="#competitions">Competitions</a>
+    <a href="#experience">Experience</a>
+    <a href="#method">Method</a>
+    <a href="#build">ATLAS</a>
+    <a href="#notes">Market notes</a>
+    <a href="#learning">Learning log</a>
+    <a href="#certs">Certifications</a>
+    <a href="#skills">Skills</a>
+    <a class="sw" href="https://shrishaskamath.github.io/atlas-markets/business/">Business dashboard →</a>
+  </div>
+</nav>
+<div class="ticker" aria-hidden="true"><div class="tk" id="tk"></div></div>
+
+<div class="wrap">
+
+<header class="hero">
+  <div>
+    <span class="status"><span class="dot"></span>Seeking markets, banking &amp; investment roles</span>
+    <h1>Shrisha<span>Kamath</span></h1>
+    <div class="roles"><b>Sales &amp; trading</b> · <b>Investment analysis</b> · <b>Banking</b> · <b>Asset &amp; wealth management</b> · <b>FinTech</b></div>
+  </div>
+  <div>
+    <p class="thesis">The edge isn't the call. It's the <em>rule that removes the call</em>, tested before it touches capital and judged on whether it was followed.</p>
+    <div class="cta">
+      <a class="btn solid" href="mailto:shrisha1.uk@gmail.com">→ shrisha1.uk@gmail.com</a>
+      <a class="btn" href="https://www.linkedin.com/in/shrishakamath" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn" href="https://shrishaskamath.github.io/atlas-markets/" target="_blank" rel="noopener">ATLAS MARKETS ↗</a>
+    </div>
+    <p class="meta">MSc International Business &amp; Strategy (Merit), University of Exeter · UK Graduate visa, full right to work</p>
+  </div>
+</header>
+
+<div class="tape">
+  <div class="tick"><div class="v" data-count="15">15</div><div class="k">months full time financial analysis</div></div>
+  <div class="tick g"><div class="v" data-count="16" data-suffix="%">16%</div><div class="k">avg portfolio growth supported, within a year</div></div>
+  <div class="tick c"><div class="v">Top 10</div><div class="k">Exeter Investment Competition 2026</div></div>
+  <div class="tick"><div class="v">#7 · #144</div><div class="k">Exeter · UK, of 1,000+ (UKIC 2025)</div></div>
+  <div class="tick g"><div class="v" data-count="29">29</div><div class="k">Pine Script indicators coded and backtested</div></div>
+  <div class="tick c"><div class="v" data-count="40" data-suffix="+">40+</div><div class="k">panels in ATLAS MARKETS, my terminal build</div></div>
+</div>
+
+<!-- ============ COMPETITIONS ============ -->
+<section id="competitions">
+  <div class="sh"><span class="n">01</span><h2>Competitive ranking</h2><span class="bar"></span></div>
+  <p class="lede">Independently scored, against students from across the UK.</p>
+  <div class="comps">
+    <div class="comp">
+      <div class="rk"><div class="n">10</div><div class="s">Top 10 · Exeter</div></div><div class="vb"></div>
+      <div><h3>Exeter Investment Competition 2026</h3><p>Top 10 university wide over an 8 week virtual portfolio on UMushroom, and I pitched my investment thesis to the judges.</p><p class="small">Partners: Loh-Gronager Partners · EXIM</p>
+      <div class="cta" style="margin-top:12px"><a class="btn" href="https://umushroom.com/en/profile/sk-capital/portfolio/hybrid-3?gift=d9dc7b9b-45b3-455e-a5dc-f468b2d7ed24" target="_blank" rel="noopener">View portfolio ↗</a></div></div>
+    </div>
+    <div class="comp">
+      <div class="rk"><div class="n">7</div><div class="s">at Exeter · #144 UK</div></div><div class="vb"></div>
+      <div><h3>UK Investment Competition 2025</h3><p>7th at Exeter and 144th of 1,000+ nationally. £100,000 virtual portfolio over 8 weeks, against 15+ universities including LSE, Oxford, Cambridge, Imperial and Warwick.</p><p class="small">Pitch judged by Prof. Adnan Anil Isin, Adam Ross, Rowan Truscott · webinars by LGT Wealth Management and Golborne Capital</p></div>
+    </div>
+  </div>
+  <div class="insight"><b>What I took</b><span>“7th” and “144th” are the same result against two different comparison groups. A ranking tells you as much about the benchmark as about the performance, so I always ask what something is being measured against.</span></div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience">
+  <div class="sh"><span class="n">02</span><h2>Markets experience</h2><span class="bar"></span></div>
+  <p class="lede">Most recent first. Click a record to collapse or expand it.</p>
+
+  <details class="rec" open>
+    <summary class="rec-h"><div><h3>Global Markets Sales &amp; Trading Analyst</h3><div class="org">Bank of America · Forage job simulation</div></div><div class="right"><span class="when">Nov 2026</span><span class="tag c">Job simulation</span></div></summary>
+    <div class="rec-b"><ul>
+      <li>Analysed market trends and dynamics in <b>Excel and Bloomberg</b>, aligning insights with client objectives.</li>
+      <li>Researched and proposed improvements to <b>trade execution processes</b> and workflow efficiency using automation and process analysis.</li>
+      <li>Wrote a client proposal with tailored investment strategies for diversification, sustainability and moderate growth.</li>
+    </ul><p class="rec-f">Credential 6adddd49de57a23d9751e617 · a Forage simulation, not employment at Bank of America</p></div>
+  </details>
+
+  <details class="rec" open>
+    <summary class="rec-h"><div><h3>Founder, Tradenova</h3><div class="org">SETsquared Pre-Incubator and Incubator · University of Exeter</div></div><div class="right"><span class="when">May 2025 – present</span><span class="tag g">FinTech venture</span></div></summary>
+    <div class="rec-b"><ul>
+      <li>Founded a systematic trading venture on one thesis: <b>retail investors lose to their own discipline</b>, not to a lack of information.</li>
+      <li>Built <span class="win">29 rule based Pine Script indicators</span> as the product core, with position sizing and drawdown limits built in, and backtested 5 strategies on TradingView.</li>
+      <li>Validated through customer discovery interviews, competitor analysis, lean canvas and unit economics; pitched to mentor and investor panels and refined the value proposition for non quant users.</li>
+    </ul><p class="rec-f">Pine Script · TradingView · backtesting · unit economics · investor pitching</p></div>
+  </details>
+
+  <details class="rec" open>
+    <summary class="rec-h"><div><h3>Audit Assistant (full time)</h3><div class="org">M/s. Sudarshan Pai A &amp; Co., Chartered Accountants · Karnataka, India</div></div><div class="right"><span class="when">Aug 2023 – Oct 2024</span><span class="tag">15 months</span></div></summary>
+    <div class="rec-b"><ul>
+      <li>Contributed to investment strategies delivering <span class="win">16% average portfolio growth</span> within a year, analysing client portfolios with technical and fundamental analysis.</li>
+      <li>The firm's certificate records that I was entrusted with <b>managing a significant financial portfolio</b>, and notes a strong understanding of technical analysis and a solid foundation in fundamental analysis.</li>
+      <li>Built valuation and reporting models in advanced Excel; ran financial statement and ratio analysis across a corporate and high net worth client book.</li>
+      <li>Verified financial data and regulatory compliance to statutory deadlines, and presented investment recommendations directly to clients in plain language.</li>
+    </ul><p class="rec-f">Ratio analysis · portfolio analysis · Excel modelling · client reporting · statutory compliance</p></div>
+  </details>
+
+  <details class="rec">
+    <summary class="rec-h"><div><h3>Finance Accelerator</h3><div class="org">AmplifyME · online programme</div></div><div class="right"><span class="when">Mar 2025</span><span class="tag c">Trading simulation</span></div></summary>
+    <div class="rec-b"><ul><li>Financial markets and trading simulation, run alongside my MSc.</li></ul><p class="rec-f">Credential 0adbfd2e-eac8-47c9-8641-409123feae80</p></div>
+  </details>
+
+  <details class="rec">
+    <summary class="rec-h"><div><h3>Research Intern, then Summer Intern</h3><div class="org">ISRO · Laboratory for Electro-Optics Systems, Bengaluru</div></div><div class="right"><span class="when">2022 · 2023</span><span class="tag c">Quant foundation</span></div></summary>
+    <div class="rec-b"><ul>
+      <li>Built a <b>5 stage autonomous navigation pipeline</b> in Python for Mars rover imagery: image stitching, 3D reconstruction, YOLO hazard detection, occupancy grid and A* path planning, validated in simulation.</li>
+      <li>Annotated 2,000+ images and raised detection confidence from about 75% to about 85%.</li>
+      <li>The habit that carried over to markets: define the constraint, encode the rule, test it against data, then iterate.</li>
+    </ul><p class="rec-f">Python · computer vision · A* search · C/C++ and SPI (summer internship)</p></div>
+  </details>
+</section>
+
+<!-- ============ METHOD ============ -->
+<section id="method">
+  <div class="sh"><span class="n">03</span><h2>How my system works</h2><span class="bar"></span></div>
+  <p class="lede">Every trade idea goes through the same five gates. Platforms: TradingView, MetaTrader 4/5, Investing.com, Bloomberg Terminal at university.</p>
+  <div class="pipe">
+    <div class="stage"><div class="st">01 / SIGNAL</div><h4>Coded conditions</h4><p>Entries written as explicit Pine Script conditions, never a gut read of a chart.</p></div>
+    <div class="stage"><div class="st">02 / FILTER</div><h4>Confluence</h4><p>RSI, MACD and moving averages must agree before a signal counts.</p></div>
+    <div class="stage"><div class="st">03 / RISK</div><h4>Size and stop</h4><p>Position size and stop set before entry, while the loss is still cheap.</p></div>
+    <div class="stage"><div class="st">04 / TEST</div><h4>Backtest</h4><p>Confirmed bars only, no lookahead, judged against buy and hold.</p></div>
+    <div class="stage"><div class="st">05 / REVIEW</div><h4>Process over P&amp;L</h4><p>A win from a broken rule is still a broken rule. Logged in a trade journal.</p></div>
+  </div>
+
+  <div class="g2" style="margin-top:10px">
+    <div class="card">
+      <h3>Risk rules I trade by</h3>
+      <div class="rules">
+        <div class="rule"><span class="v">1–2%</span><span class="d">Maximum capital at risk on any single trade</span></div>
+        <div class="rule"><span class="v">2:1 · 3:1</span><span class="d">Minimum reward to risk before I take a setup</span></div>
+        <div class="rule"><span class="v">Stops</span><span class="d">Set before entry and respected</span></div>
+        <div class="rule"><span class="v">Drawdown</span><span class="d">Limits treated as a first order constraint, not an afterthought</span></div>
+        <div class="rule"><span class="v">Journal</span><span class="d">Structured trade journals and Excel logs, reviewed for rule adherence</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Strategies backtested</h3>
+      <div class="list">
+        <div class="row"><span class="t">RSI Bounce</span><span class="y">Own</span></div>
+        <div class="row"><span class="t">3-Candle Pattern strategy</span><span class="y">Own</span></div>
+        <div class="row"><span class="t">VCP · RSI · Bollinger Bands · MA crossover</span><span class="y">Known</span><span class="d">Well known strategies tested to learn how they behave, and where they fail</span></div>
+        <div class="row"><span class="t">Proprietary strategies</span><span class="y">Private</span><span class="d">Kept confidential; method available on request</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:10px">
+    <h3>The 29 indicator library</h3>
+    <div class="tbl-tools"><input class="search" id="indSearch" type="search" placeholder="Search: RSI, wick, volume…" aria-label="Search indicators"><span class="tbl-count" id="indCount"></span></div>
+    <div class="tbl"><table><thead><tr><th>#</th><th>Indicator</th><th>What it does</th><th>Family</th></tr></thead><tbody id="indBody"></tbody></table></div>
+  </div>
+</section>
+
+<!-- ============ ATLAS ============ -->
+<section id="build">
+  <div class="sh"><span class="n">04</span><h2>What I built: ATLAS MARKETS</h2><span class="bar"></span></div>
+  <div class="atlas">
+    <div class="l">
+      <span class="tag g">Live demo · personal build · Oct 2026</span>
+      <h3 style="margin-top:12px">A browser based markets terminal</h3>
+      <p>Inspired by the Bloomberg Terminal: 40+ panels across equities and sector heatmaps, FX rates and currency strength, yield curves and bond yields, commodities, ETFs and global indices, an economic calendar, news and sentiment, technical analysis and portfolio P&amp;L.</p>
+      <p>Keyboard shortcuts, theme and motion settings, and a simulation engine. Data is simulated in the browser for demonstration, and the page says so.</p>
+      <div class="cta"><a class="btn solid" href="https://shrishaskamath.github.io/atlas-markets/" target="_blank" rel="noopener">Open ATLAS MARKETS ↗</a></div>
+    </div>
+    <div class="mock" aria-hidden="true">
+      <div class="w2">Equity heatmap<b>Sectors</b></div><div>FX matrix<b>G10</b></div><div>Yield curve<b>2s10s</b></div>
+      <div>Candles<b>OHLC</b></div><div>Sentiment<b class="r">Risk-off</b></div><div class="w2">Economic calendar<b>CPI · FOMC</b></div>
+      <div>Commodities<b>Brent</b></div><div>Indices<b>Global</b></div><div>Portfolio<b>P&amp;L</b></div><div>Clocks<b>Sessions</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NOTES ============ -->
+<section id="notes">
+  <div class="sh"><span class="n">05</span><h2>Market notes: things I dug into</h2><span class="bar"></span></div>
+  <p class="lede">From my “explained plainly” LinkedIn series, where I take one market idea, work an example, and end with a question.</p>
+  <div class="notes">
+    <div class="note"><span class="k">Macro · UK</span><h4>Read inflation by its internals</h4><p>Headline CPI grabs attention; core and services tell the Bank of England what is sticky.</p><span class="fig">Sep 2026 · headline 3.5% · core 2.8% · services 3.7%</span></div>
+    <div class="note"><span class="k">Macro · US</span><h4>A hold is not a neutral signal</h4><p>The Fed held at 3.75–4%, with two dissents in favour of a hike. The dissent matters as much as the decision.</p><span class="fig">Watch the votes, not only the rate</span></div>
+    <div class="note"><span class="k">Risk</span><h4>Drawdowns are asymmetric</h4><p>A 50% loss needs a 100% gain to recover. That is why sizing and stops come first. Try it below.</p><span class="fig">−50% → +100% to break even</span></div>
+    <div class="note"><span class="k">Backtesting</span><h4>Repainting quietly lies</h4><p>An indicator that changes its past signals flatters a backtest. I use confirmed bars and turn lookahead off.</p><span class="fig">barstate.isconfirmed · lookahead off in request.security</span></div>
+    <div class="note"><span class="k">Evaluation</span><h4>Beat buy and hold, not cash</h4><p>A strategy that makes money but trails simply holding the index has not added anything.</p><span class="fig">Benchmark = the passive alternative</span></div>
+    <div class="note"><span class="k">Behaviour</span><h4>Discipline is the bottleneck</h4><p>The thesis behind Tradenova: rules beat discretion, because the hard part is doing what you planned.</p><span class="fig">Judge rule adherence, not outcome</span></div>
+  </div>
+
+  <div class="card" style="margin-top:10px">
+    <h3>Drawdown recovery calculator</h3>
+    <div class="dd">
+      <div>
+        <label for="ddr">Portfolio loss</label>
+        <input id="ddr" type="range" min="5" max="80" step="1" value="50" aria-describedby="ddo">
+        <div class="big" id="ddo" aria-live="polite"><div class="l"><span id="ddl">−50%</span><small>Loss</small></div><div class="r"><span id="ddg">+100%</span><small>Gain needed to recover</small></div></div>
+        <p>Required gain = 1 ÷ (1 − loss) − 1. The curve steepens fast, which is why I cap risk per trade at 1–2%.</p>
+      </div>
+      <div class="chart-wrap" id="ddc"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LEARNING ============ -->
+<section id="learning">
+  <div class="sh"><span class="n">06</span><h2>Learning log</h2><span class="bar"></span></div>
+  <p class="lede">I keep learning on purpose. Each dot is a credential I completed; hover or tap one to see it.</p>
+  <div class="learn-top">
+    <div class="card">
+      <h3>Credentials completed, by month</h3>
+      <div class="chart-wrap" id="cadence"><div class="tip" id="tip" role="status"></div></div>
+      <p class="foot-note">Not on the timeline: Sulitest TASK (score 86.6) and Skills for AI &amp; Digital Innovation, both 2025, month not recorded; NCC ‘A’, ‘B’ and ‘C’ Certificates, 2016–2023.</p>
+    </div>
+    <div class="card">
+      <h3>Learning right now</h3>
+      <div class="now">
+        <div class="item"><div class="k"><span class="live-dot"></span>In progress</div><div class="t">AI workflow automation in n8n</div><p>Automating the research and reporting steps around a markets workflow.</p></div>
+        <div class="item"><div class="k">Just finished · Nov 2026</div><div class="t">Bank of America S&amp;T job simulation</div><p>Market analysis, trade execution workflow and a client proposal.</p></div>
+        <div class="item"><div class="k">Just finished · Oct 2026</div><div class="t">OpenAI Agents &amp; Workflows · Anthropic AI Fluency</div><p>Then used AI assisted development to build ATLAS MARKETS.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="g2" style="margin-top:10px">
+    <div class="card">
+      <h3>Finance learning, beyond certificates</h3>
+      <div class="list">
+        <div class="row"><span class="t">Corporate Governance and Finance</span><span class="y">MSc</span><span class="d">Core module, University of Exeter</span></div>
+        <div class="row"><span class="t">Accounting for International Managers</span><span class="y">MSc</span><span class="d">Group company analysis with receivables and inventory turnover; teammate praised my “perfect grasp of core financial concepts”</span></div>
+        <div class="row"><span class="t">Entrepreneurship Simulation, as CEO</span><span class="y">MSc</span><span class="d">Directed finance, operations and marketing decisions against competing teams</span></div>
+        <div class="row"><span class="t">Exeter Investment Management Society (EXIM)</span><span class="y">Member</span><span class="d">Student investment society; partner of the 2026 competition</span></div>
+        <div class="row"><span class="t">Introduction to IB Technicals</span><span class="y">Apr 2025</span><span class="d">2 day course, City Investment Training</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Courses inside the courses</h3>
+      <div class="list">
+        <div class="row"><span class="t">Bloomberg Market Concepts</span><span class="y">Sep 2025</span><span class="d">Economics, currencies, fixed income and equities, learned on the Terminal itself</span></div>
+        <div class="row"><span class="t">SETsquared Pre-Incubator</span><span class="y">2025</span><span class="d">Revenue streams and finance basics, startup finance and cashflow, unit economics, TAM/SAM/SOM</span></div>
+        <div class="row"><span class="t">AmplifyME Finance Accelerator</span><span class="y">Mar 2025</span><span class="d">Financial markets and trading simulation</span></div>
+        <div class="row"><span class="t">NISM SEBI Investor Awareness</span><span class="y">May 2025</span><span class="d">Indian capital markets and investor protection</span></div>
+        <div class="row"><span class="t">EY Climate Change &amp; Sustainability</span><span class="y">Sep 2025</span><span class="d">CDP and TCFD roadmap: the disclosure side of sustainable investing</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:10px">
+    <h3>Events, lectures and mentors I chose to attend</h3>
+    <p class="foot-note" style="margin:-6px 0 6px"><span style="display:inline-block;width:8px;height:8px;background:var(--amber);margin-right:6px"></span>Finance and markets first</p>
+    <div class="events" id="events"></div>
+  </div>
+</section>
+
+<!-- ============ CERTS ============ -->
+<section id="certs">
+  <div class="sh"><span class="n">07</span><h2>Every certification</h2><span class="bar"></span></div>
+  <p class="lede">All 17, with issuers, dates and credential IDs where they exist. Filter by area or search.</p>
+  <div class="filters" id="filters" role="group" aria-label="Filter certifications"></div>
+  <div class="count" id="count" aria-live="polite"></div>
+  <div class="certs" id="certGrid"></div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills">
+  <div class="sh"><span class="n">08</span><h2>Skills, with the evidence</h2><span class="bar"></span></div>
+  <p class="lede">Working = used with supervision · Proficient = used independently and repeatedly · Advanced = built something others rely on.</p>
+  <div class="skills">
+    <div class="skill"><div class="top"><h4>Technical analysis</h4><span class="lvl adv">Advanced</span></div><p>29 coded indicators; employer certificate cites a strong understanding of technical analysis.</p></div>
+    <div class="skill"><div class="top"><h4>Microsoft Excel</h4><span class="lvl adv">Advanced</span></div><p>Valuation, reporting and portfolio models at the practice; trade journals.</p></div>
+    <div class="skill"><div class="top"><h4>Pine Script (TradingView)</h4><span class="lvl adv">Advanced</span></div><p>29 indicators and 5 backtested strategies, written with AI assistance.</p></div>
+    <div class="skill"><div class="top"><h4>Fundamental and ratio analysis</h4><span class="lvl pro">Proficient</span></div><p>15 months across a corporate and high net worth client book.</p></div>
+    <div class="skill"><div class="top"><h4>Portfolio management and risk</h4><span class="lvl pro">Proficient</span></div><p>Client portfolios, two competitions, position sizing and drawdown rules.</p></div>
+    <div class="skill"><div class="top"><h4>Backtesting and systematic design</h4><span class="lvl pro">Proficient</span></div><p>TradingView backtests with confirmed bars and buy and hold benchmarks.</p></div>
+    <div class="skill"><div class="top"><h4>Valuation and financial modelling</h4><span class="lvl">Working–Proficient</span></div><p>Valuation and reporting models in Excel at the practice.</p></div>
+    <div class="skill"><div class="top"><h4>Macro analysis</h4><span class="lvl">Working</span></div><p>CPI and Fed notes; Bloomberg Market Concepts.</p></div>
+    <div class="skill"><div class="top"><h4>Bloomberg Terminal</h4><span class="lvl">Working</span></div><p>BMC certified; used in the Bank of America simulation.</p></div>
+    <div class="skill"><div class="top"><h4>Python</h4><span class="lvl pro">Proficient</span></div><p>ISRO computer vision and path planning pipeline.</p></div>
+    <div class="skill"><div class="top"><h4>AI assisted development</h4><span class="lvl adv">Advanced</span></div><p>ATLAS MARKETS and the indicator library; Anthropic and OpenAI courses.</p></div>
+    <div class="skill"><div class="top"><h4>Client communication</h4><span class="lvl pro">Proficient</span></div><p>Presented recommendations to corporate and high net worth clients; S&amp;T client proposal.</p></div>
+  </div>
+  <div class="card" style="margin-top:10px">
+    <h3>Toolbox</h3>
+    <div class="pills"><span class="key">Bloomberg Terminal</span><span class="key">Excel</span><span class="key">TradingView</span><span class="key">Pine Script</span><span>MetaTrader 4/5</span><span>Investing.com</span><span>Python</span><span>UMushroom</span><span>ChatGPT</span><span>Claude</span><span>n8n (learning)</span><span>Equities</span><span>FX</span><span>Rates</span><span>Commodities</span></div>
+  </div>
+</section>
+
+<!-- ============ EDU / RECS ============ -->
+<section id="education">
+  <div class="sh"><span class="n">09</span><h2>Education and recognition</h2><span class="bar"></span></div>
+  <div class="g3">
+    <div class="card"><h3>Education</h3><div class="list">
+      <div class="row"><span class="t">MSc International Business &amp; Strategy, Merit</span><span class="y">2025 – 26</span><span class="d">University of Exeter · Corporate Governance and Finance · Strategic Innovation Management</span></div>
+      <div class="row"><span class="t">B.Tech Electronics &amp; Communication Engineering</span><span class="y">2019 – 23</span><span class="d">Manipal Institute of Technology · minor in Business Management</span></div>
+    </div></div>
+    <div class="card"><h3>Awards</h3><div class="list">
+      <div class="row"><span class="t">Exeter Investment Competition, top 10</span><span class="y">2026</span></div>
+      <div class="row"><span class="t">UK Investment Competition, 7th Exeter · 144th UK</span><span class="y">2025</span></div>
+      <div class="row"><span class="t">Rashtrapati Scout Award</span><span class="y">2018</span><span class="d">India's highest Scouting honour</span></div>
+      <div class="row"><span class="t">Exeter Award</span><span class="y">2025</span></div>
+    </div></div>
+    <div class="card"><h3>Leadership</h3><div class="list">
+      <div class="row"><span class="t">Team Lead, SDG Future17</span><span class="y">2025</span><span class="d">5 people, 4 countries, 3 time zones</span></div>
+      <div class="row"><span class="t">CEO, Entrepreneurship Simulation</span><span class="y">2025</span></div>
+      <div class="row"><span class="t">NCC ‘C’ Certificate, platoon leadership</span><span class="y">2019 – 23</span></div>
+    </div></div>
+  </div>
+  <div class="recs" style="margin-top:10px">
+    <div class="rq"><q>perfect grasp of core financial concepts… meticulous attention to detail</q><div class="who">Shokhrukh Komilov</div><div class="rel">Financial Analyst · teammate · Sep 2025</div></div>
+    <div class="rq"><q>consistently demonstrated initiative and dedication</q><div class="who">Jasmine Hammond</div><div class="rel">Student Entrepreneurship Manager · managed me · Dec 2025</div></div>
+    <div class="rq"><q>thoughtful, evidence-based and clearly presented</q><div class="who">Meg Haslam</div><div class="rel">Sustainability Team · client · Apr 2026</div></div>
+  </div>
+</section>
+
+<footer>
+  <div><h3>Let's talk markets.</h3><p>Exeter, UK · UK Graduate visa, full right to work · open to relocation</p></div>
+  <div class="cta" style="margin-top:0">
+    <a class="btn solid" href="mailto:shrisha1.uk@gmail.com">→ Get in touch</a>
+    <a class="btn" href="https://www.linkedin.com/in/shrishakamath" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a class="btn" href="https://shrishaskamath.github.io/atlas-markets/business/">Business dashboard →</a>
+  </div>
+</footer>
+<p class="colophon">Updated November 2026 · Built by Shrisha Kamath with AI assisted development · Competition and simulation results are labelled as such</p>
+</div>
+
+<script>
+const FOCUS = ['fin','ai','ent','ops','sus','gen','lead'];
+const DOM = {ops:'Operations & consulting',sus:'Sustainability',ent:'Entrepreneurship',ai:'AI & digital',lead:'Leadership',fin:'Finance & markets',gen:'Employability'};
+const CERTS = [
+ {n:'Global Markets Sales & Trading Analyst Job Simulation',i:'Bank of America · Forage',d:'Nov 2026',m:'2026-11',id:'6adddd49de57a23d9751e617',dom:['fin','ops'],p:'Market trends in Excel and Bloomberg; process improvements to trade execution workflow; a client proposal.'},
+ {n:'Agents and Workflows',i:'OpenAI Academy',d:'Oct 2026',m:'2026-10',dom:['ai','ops'],p:'Designing AI agents and automated workflows.'},
+ {n:'AI Fluency: Framework & Foundations',i:'Anthropic',d:'Oct 2026',m:'2026-10',id:'zd6md9amxxqn',dom:['ai'],p:'Working with AI effectively, critically and responsibly.'},
+ {n:'Future17 SDG Challenge',i:'QS Quacquarelli Symonds',d:'Jan 2026',m:'2026-01',dom:['sus','ops','lead'],p:'Led a 5 person international team to a published NGO deliverable.'},
+ {n:'Create – Protect – Innovate: Bringing Ideas to Market',i:'European Patent Office',d:'Jan 2026',m:'2026-01',dom:['ent'],p:'Entry level, UV03-2025. Patentability, freedom to operate, IP strategy.'},
+ {n:'Bloomberg Market Concepts',i:'Bloomberg',d:'Sep 2025',m:'2025-09',id:'TDhcKZhmrofSt9XvjH2qr8Z6',dom:['fin'],p:'Economics, currencies, fixed income and equities on the Terminal.'},
+ {n:'Climate Change & Sustainability Job Simulation',i:'EY · Forage',d:'Sep 2025',m:'2025-09',id:'24NfsE73tzBszsrwt',dom:['sus','ops'],p:'Peer benchmarking, CDP and TCFD roadmap, ESG target analysis.'},
+ {n:'Green Consultants',i:'University of Exeter',d:'Sep 2025',m:'2025-09',dom:['sus','ops'],p:'Behaviour change, project management, environmental auditing.'},
+ {n:'Exeter Award',i:'University of Exeter',d:'Sep 2025',m:'2025-09',dom:['gen'],p:'University employability and skills award.'},
+ {n:'Student Start-up Pre-Incubator Programme',i:'SETsquared',d:'Jun 2025',m:'2025-06',id:'b20eadd002b187e08d155e0b8b73cf2415bfcfef',dom:['ent','ops'],p:'Lean canvas, validation, revenue models, MVP, pitching.'},
+ {n:'Student Start-up Bootcamp',i:'SETsquared',d:'Jun 2025',m:'2025-06',id:'0f844de5e6202548c79fc3990e980ee75feea50e',dom:['ent'],p:'Ideation, market validation, cost structure, target customers.'},
+ {n:'SEBI Investor Awareness Test',i:'NISM',d:'May 2025',m:'2025-05',id:'NISM20250000192992',dom:['fin'],p:'Indian capital markets and investor protection.'},
+ {n:'Introduction to IB Technicals',i:'City Investment Training',d:'Apr 2025',m:'2025-04',dom:['fin'],p:'2 day course on investment banking technicals.'},
+ {n:'Finance Accelerator',i:'AmplifyME',d:'Mar 2025',m:'2025-03',id:'0adbfd2e-eac8-47c9-8641-409123feae80',dom:['fin'],p:'Financial markets and trading simulation.'},
+ {n:'TASK Sustainability Knowledge (score 86.6)',i:'Sulitest',d:'2025',dom:['sus'],p:'International sustainability literacy assessment.'},
+ {n:'Skills for AI & Digital Innovation',i:'University of Exeter (student led)',d:'2025',dom:['ai'],p:'2 week course on AI and digital innovation.'},
+ {n:'NCC ‘A’, ‘B’ and ‘C’ Certificates',i:'National Cadet Corps',d:'2016 – 2023',dom:['lead'],p:'‘C’ is the highest, Senior Division. Platoon leadership.'}
+];
+const EVENTS = [
+ ['P&G','Think Like a CEO','biz'],['European Patent Office','IP masterclass','biz'],['Romain Pouzou','Systems Thinking webinar (Future17)','biz'],
+ ['Angela Christidis','Decolonising Sustainability','biz'],['Exeter Entrepreneurship Awards','Mentor feedback from Bill Russell and Juliet Barratt','biz'],
+ ['Richard Carpenter','One to one business mentoring over coffee','biz'],['Andrew Durant','Forensic accounting session','fin'],
+ ['Guy Rolfe CFA · Andrea Acimovic','ESG lectures','fin'],['Russell · Federated Hermes · Allspring','Sustainable & Ethical Investing','fin'],
+ ['Bank of America','Explore Business Careers EMEA','fin'],['Bank of America','Market Risk insight event','fin'],
+ ['Baillie Gifford','Investment Research: Connect & Discover','fin'],['Baillie Gifford','Multicultural Careers','fin'],
+ ['Fidelity International','Research Analyst Internship webinar','fin'],['PGIM','Early Careers','fin'],
+ ['Federated Hermes · DWS · BNY','Student to Professional','fin'],['Aegon · Mercer · Federated Hermes','What does a fund manager do?','fin'],
+ ['HSBC AM · Aon · Vanguard','A Day in the Life','fin'],['LGT Wealth Management','Webinar with Tom Jemmett (UK Investment Competition)','fin'],
+ ['Golborne Capital','Webinar (UK Investment Competition)','fin'],['JO Hambro','Guest lecture by James Lowen','fin'],['Justin Haque','Slice of Finance','fin']
+];
+const REL = 'fin';
+const IND = [
+ ['Candle Outside Bollinger Bands','Flags candles closing outside the bands','Volatility'],
+ ['Red Candle Size Detector','Red candles with body above 0.10%','Candle'],
+ ['Average Range Pips','Average daily and weekly range for a Fibonacci strategy','Volatility'],
+ ['CCI 93–100 Range','Flags CCI in the 93 to 100 zone','Momentum'],
+ ['3-Indicator Long-Only Combo','Buy condition from RSI, MACD and MA together','Confluence'],
+ ['Volatility Oscillator Jump Detector','Large jumps between oscillator values','Volatility'],
+ ['Body Engulfing (3-candle look-back)','Engulfing body against the last 3 candles','Pattern'],
+ ['Green Candle with Lower Wick','Lower wick detection on green candles','Candle'],
+ ['Green Candle touching 9 & 20 EMA','EMA pullback entries','Trend'],
+ ['Engulfing + Green High = Close','Combined strength pattern','Pattern'],
+ ['Hammer & Inverted Hammer','Reversal candles','Pattern'],
+ ['High–Low Match','Previous high matches current low','Structure'],
+ ['Long Lower Wick (> X% of body)','Rejection wicks','Candle'],
+ ['RSI & CCI Combination','Joint threshold levels','Confluence'],
+ ['Red Candle Size Detection (strategy)','Size filter for a strategy','Candle'],
+ ['Volume > 175','Volume threshold filter','Volume'],
+ ['Strong Candle + Consolidation','Impulse, then pause','Pattern'],
+ ['Green Candle > 0.09%','Momentum candle filter','Momentum'],
+ ['Green Candle, small upper wick','Strong close','Candle'],
+ ['Modified RSI','Custom RSI levels','Momentum'],
+ ['Price Drop Alert','Sudden drop within a set time','Alert'],
+ ['Strong Engulfing Detector','Strong body engulfing','Pattern'],
+ ['Volume Oscillator threshold','Oscillator value trigger','Volume'],
+ ['3-Candle Pattern','A specified 3 candle pattern','Pattern'],
+ ['Strong Green, minimal upper wick','Variant of the strong close filter','Candle'],
+ ['Hammer/Inverted Hammer with wick size','Scalp reversals on US30','Pattern'],
+ ['VWAP + EMA','Swing entries on stocks','Trend'],
+ ['Wick > 85% of candle','Extreme rejection candles','Candle'],
+ ['Doji Detector','Doji with up or down potential','Pattern']
+];
+</script>
+<script>
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const css = getComputedStyle(document.documentElement);
+  const C = {mark:css.getPropertyValue('--chart-mark').trim(), ink:css.getPropertyValue('--muted').trim(), line:css.getPropertyValue('--line-2').trim(), band:css.getPropertyValue('--chart-band').trim(), surf:css.getPropertyValue('--panel').trim(), white:css.getPropertyValue('--white').trim(), green:css.getPropertyValue('--green').trim()};
+  const MONO='JetBrains Mono, IBM Plex Mono, monospace';
+
+  // ticker
+  const items=[['Pine Script','29 indicators','a'],['Exeter Inv. Comp 2026','TOP 10','a'],['UK Inv. Comp 2025','#7 EXETER · #144 UK','a'],['Audit practice','15 MONTHS','g'],['Portfolio growth supported','16% AVG','g'],['Bloomberg','BMC CERTIFIED',''],['Bank of America','S&T SIMULATION',''],['AmplifyME','FINANCE ACCELERATOR',''],['NISM','SEBI INVESTOR AWARENESS',''],['ATLAS MARKETS','40+ PANELS','g'],['Learning now','n8n AUTOMATION','a'],['Method','RULE BASED','g']];
+  const one=items.map(i=>`<span><i>${i[0]}</i><b class="${i[2]}">${i[1]}</b></span>`).join('');
+  document.getElementById('tk').innerHTML=one+one;
+
+  // indicators
+  const body=document.getElementById('indBody'), ic=document.getElementById('indCount');
+  function drawInd(q){ const rows=IND.map((r,i)=>[i+1,...r]).filter(r=>!q||(r[1]+' '+r[2]+' '+r[3]).toLowerCase().includes(q)); ic.textContent=`${rows.length} of 29`; body.innerHTML=rows.map(r=>`<tr><td>${String(r[0]).padStart(2,'0')}</td><td>${r[1]}</td><td>${r[2]}</td><td><span class="fam">${r[3]}</span></td></tr>`).join('')||'<tr><td colspan="4" style="color:var(--muted)">No match</td></tr>'; }
+  document.getElementById('indSearch').addEventListener('input',e=>drawInd(e.target.value.trim().toLowerCase())); drawInd('');
+
+  // events
+  const ev=document.getElementById('events');
+  const sorted=EVENTS.filter(e=>e[2]===REL).concat(EVENTS.filter(e=>e[2]!==REL));
+  ev.innerHTML=sorted.map(e=>`<div class="ev${e[2]===REL?' rel':''}"><div><b>${e[0]}</b><span>${e[1]}</span></div></div>`).join('');
+
+  // cert explorer
+  const order=c=>Math.min(...c.dom.map(d=>FOCUS.indexOf(d)));
+  const list=CERTS.slice().sort((a,b)=>order(a)-order(b));
+  const counts={}; CERTS.forEach(c=>c.dom.forEach(d=>counts[d]=(counts[d]||0)+1));
+  const fwrap=document.getElementById('filters'); let active='all',q='';
+  fwrap.innerHTML='<span class="lbl">Area</span>'+`<button class="fchip" data-f="all" aria-pressed="true">All<span class="c">${CERTS.length}</span></button>`+FOCUS.filter(f=>counts[f]).map(f=>`<button class="fchip" data-f="${f}" aria-pressed="false">${DOM[f]}<span class="c">${counts[f]}</span></button>`).join('')+'<input class="search" type="search" placeholder="Search issuer, skill, ID…" aria-label="Search certifications">';
+  const grid=document.getElementById('certGrid'), cnt=document.getElementById('count');
+  function render(){ const items=list.filter(c=>(active==='all'||c.dom.includes(active))&&(!q||(c.n+' '+c.i+' '+c.p+' '+(c.id||'')).toLowerCase().includes(q))); cnt.textContent=`Showing ${items.length} of ${CERTS.length}`; grid.innerHTML=items.length?items.map(c=>`<article class="cert"><div class="top"><span class="iss">${c.i}</span><span class="dt">${c.d}</span></div><h4>${c.n}</h4><p>${c.p}</p>${c.id?`<span class="id">ID ${c.id}</span>`:''}<div class="doms">${c.dom.map(d=>`<span>${DOM[d]}</span>`).join('')}</div></article>`).join(''):'<div class="empty">No match. Try another word.</div>'; }
+  fwrap.addEventListener('click',e=>{const b=e.target.closest('.fchip'); if(!b) return; active=b.dataset.f; fwrap.querySelectorAll('.fchip').forEach(x=>x.setAttribute('aria-pressed',x===b)); render();});
+  fwrap.querySelector('.search').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase(); render();});
+  render();
+
+  // cadence chart
+  const months=[]; for(let y=2025;y<=2026;y++) for(let m=1;m<=12;m++){ if(y===2026&&m>11) break; months.push(`${y}-${String(m).padStart(2,'0')}`); }
+  const W=640,H=230,L=14,R=10,T=18,B=40,cw=(W-L-R)/months.length,r=Math.min(8,cw*0.36);
+  const byM={}; CERTS.filter(c=>c.m).forEach(c=>(byM[c.m]=byM[c.m]||[]).push(c));
+  const x=i=>L+cw*i+cw/2, base=H-B, mi=k=>months.indexOf(k);
+  let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Timeline of ${CERTS.filter(c=>c.m).length} dated credentials from March 2025 to November 2026">`;
+  const band=(a,b,label)=>{const x0=L+cw*mi(a),x1=L+cw*(mi(b)+1); s+=`<rect x="${x0}" y="${T-6}" width="${x1-x0}" height="${base-T+6}" fill="${C.band}" rx="4"/><text x="${x0+6}" y="${T+6}" font-family="${MONO}" font-size="9.5" fill="${C.ink}">${label}</text>`;};
+  band('2025-01','2026-01','MSc, University of Exeter'); band('2026-10','2026-11','AI sprint');
+  s+=`<line x1="${L}" x2="${W-R}" y1="${base}" y2="${base}" stroke="${C.line}"/>`;
+  months.forEach((m,i)=>{const [y,mm]=m.split('-'); if(['01','04','07','10'].includes(mm)) s+=`<text x="${x(i)}" y="${base+16}" text-anchor="middle" font-family="${MONO}" font-size="10" fill="${C.ink}">${{'01':'Jan','04':'Apr','07':'Jul','10':'Oct'}[mm]}</text>`; if(mm==='01') s+=`<text x="${x(i)}" y="${base+30}" text-anchor="middle" font-family="${MONO}" font-size="10" font-weight="700" fill="${C.ink}">${y}</text>`;});
+  Object.keys(byM).forEach(k=>byM[k].forEach((c,j)=>{const cy=base-r-2-j*(2*r+4); s+=`<g class="pt" tabindex="0" data-k="${k}" data-j="${j}"><circle cx="${x(mi(k))}" cy="${cy}" r="${r+6}" fill="transparent"/><circle cx="${x(mi(k))}" cy="${cy}" r="${r}" fill="${C.mark}" stroke="${C.surf}" stroke-width="2"/></g>`;}));
+  s+='</svg>';
+  const wrap=document.getElementById('cadence'), tip=document.getElementById('tip');
+  wrap.insertAdjacentHTML('beforeend',s);
+  function show(g){const c=byM[g.dataset.k][+g.dataset.j]; tip.innerHTML=`<b>${c.n}</b><span>${c.i} · ${c.d}</span>`; const br=g.getBoundingClientRect(),wr=wrap.getBoundingClientRect(); let left=br.left-wr.left+br.width/2-110; left=Math.max(0,Math.min(left,wr.width-230)); tip.style.left=left+'px'; tip.style.top=(br.top-wr.top-58)+'px'; tip.classList.add('on');}
+  wrap.querySelectorAll('.pt').forEach(g=>{['mouseenter','focus','click'].forEach(t=>g.addEventListener(t,()=>show(g))); ['mouseleave','blur'].forEach(t=>g.addEventListener(t,()=>tip.classList.remove('on'))); g.style.cursor='pointer';});
+
+  // drawdown curve
+  const dW=520,dH=250,dL=44,dR=14,dT=14,dB=34, xmax=80, ymax=400;
+  const dx=v=>dL+(v/xmax)*(dW-dL-dR), dy=v=>dH-dB-(Math.min(v,ymax)/ymax)*(dH-dT-dB);
+  const need=l=>(1/(1-l/100)-1)*100;
+  let path=''; for(let l=0;l<=xmax;l+=1){ path+=(l?'L':'M')+dx(l).toFixed(1)+','+dy(need(l)).toFixed(1); }
+  let g=`<svg class="chart" viewBox="0 0 ${dW} ${dH}" role="img" aria-label="Line chart: gain needed to recover rises from 0% at no loss to 400% at an 80% loss">`;
+  [0,100,200,300,400].forEach(v=>{g+=`<line x1="${dL}" x2="${dW-dR}" y1="${dy(v)}" y2="${dy(v)}" stroke="${C.line}" stroke-width="1" opacity=".6"/><text x="${dL-8}" y="${dy(v)+3}" text-anchor="end" font-family="${MONO}" font-size="10" fill="${C.ink}">${v}%</text>`;});
+  [0,20,40,60,80].forEach(v=>{g+=`<text x="${dx(v)}" y="${dH-dB+16}" text-anchor="middle" font-family="${MONO}" font-size="10" fill="${C.ink}">${v?"−":""}${v}%</text>`;});
+  g+=`<text x="${dW-dR}" y="${dH-4}" text-anchor="end" font-family="${MONO}" font-size="9.5" fill="${C.ink}">loss</text>`;
+  g+=`<line x1="${dx(1)}" y1="${dy(1)}" x2="${dx(80)}" y2="${dy(80)}" stroke="${C.ink}" stroke-dasharray="3 4" stroke-width="1" opacity=".6"/>`;
+  g+=`<text x="${dx(50)}" y="${dy(50)-10}" font-family="${MONO}" font-size="9.5" fill="${C.ink}">if it were symmetric</text>`;
+  g+=`<path d="${path}" fill="none" stroke="${C.green}" stroke-width="2" stroke-linejoin="round"/>`;
+  g+=`<line id="ddv" stroke="${C.white}" stroke-width="1" opacity=".5"/><circle id="ddp" r="6" fill="${C.green}" stroke="${C.surf}" stroke-width="2"/><text id="ddt" font-family="${MONO}" font-size="11" font-weight="700" fill="${C.white}"></text></svg>`;
+  const ddc=document.getElementById('ddc'); ddc.innerHTML=g;
+  const rng=document.getElementById('ddr');
+  function upd(){ const l=+rng.value, n=need(l); document.getElementById('ddl').textContent='−'+l+'%'; document.getElementById('ddg').textContent='+'+(n<100?n.toFixed(1):Math.round(n))+'%'; const px=dx(l),py=dy(n); const v=document.getElementById('ddv'); v.setAttribute('x1',px);v.setAttribute('x2',px);v.setAttribute('y1',dy(0));v.setAttribute('y2',py); const p=document.getElementById('ddp'); p.setAttribute('cx',px);p.setAttribute('cy',py); const t=document.getElementById('ddt'); t.textContent='+'+Math.round(n)+'%'; t.setAttribute('x',px+(l>65?-10:10)); t.setAttribute('text-anchor',l>65?'end':'start'); t.setAttribute('y',Math.max(dT+10,py-8)); }
+  rng.addEventListener('input',upd); upd();
+
+  // counters
+  if(reduce||!('IntersectionObserver' in window)) return;
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting) return; const el=e.target,t=+el.dataset.count,suf=el.dataset.suffix||'',t0=performance.now(); (function step(n){const k=Math.min(1,(n-t0)/900); el.textContent=Math.round(t*(1-Math.pow(1-k,3)))+suf; if(k<1) requestAnimationFrame(step);})(t0); io.unobserve(el);}),{threshold:.4});
+  document.querySelectorAll('[data-count]').forEach(el=>io.observe(el));
+})();
+</script>
+</body>
+</html>
